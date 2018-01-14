@@ -1,0 +1,17 @@
+# Tmp files
+tmp/
+
+# Used by dotenv library to load environment variables.
+.env
+**/group_vars/all*
+**/inventory/inventory*
+
+# Ansible
+**/*.retry
+
+# Vagrant
+.vagrant/
+
+# MacOS
+.DS_Store
+stuff.md
