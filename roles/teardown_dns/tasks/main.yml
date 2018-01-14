@@ -1,0 +1,31 @@
+
+- name: List all hosted zones
+  route53_facts:
+    query: hosted_zone
+  register: hosted_zones
+
+- name: Delete master and bastion routes
+  include: delete-route.yml zone={{ dns_zone }} record="{{item}}.{{ dns_zone }}" private_zone="true"
+  with_items:
+    - "bastion"
+    - "master"
+
+- name: Delete node routes
+  include: delete-route.yml zone={{ dns_zone }} record="node{{item}}.{{ dns_zone }}" private_zone="true"
+  with_sequence: start=1 end={{app_nodes|int}}
+  ignore_errors: true
+  
+- name: Delete private DNS zone
+  route53_zone:
+     zone: "{{dns_zone}}"
+     state: "absent"
+     vpc_region: "{{region}}"
+  #ignore_errors: yes
+  register: delete_output
+
+- name: Delete Public Route
+  include: delete-route.yml zone={{ public_dns_zone }} record={{ public_dns_zone }} private_zone="false"
+
+- name: Delete Public Wildcard Route
+  include: delete-route.yml zone={{ public_dns_zone }} record="*.{{public_subdomain_prefix}}.{{ public_dns_zone }}" private_zone="false"
+  

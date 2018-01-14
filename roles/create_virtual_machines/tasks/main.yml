@@ -1,5 +1,5 @@
 
-- name: Find ami id with ami
+- name: Find AMI
   ec2_ami_find:
      ami_id: "{{ami_id}}"
      region: "{{region}}"

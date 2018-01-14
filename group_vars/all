@@ -24,3 +24,8 @@ docker_volume_size: 50
 # Networking
 vpc_cidr: "10.0.0.0/16"
 subnet_cidr: "10.0.1.0/24"
+
+# DNS zones
+dns_zone: ocp.local
+public_dns_zone: banga.mx
+public_subdomain_prefix: apps

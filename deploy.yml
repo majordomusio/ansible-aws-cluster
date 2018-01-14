@@ -6,6 +6,5 @@
 #    - role: create_default_security_group
     - role: create_security_groups
     - role: create_virtual_machines
+    - role: create_dns
     
-    
-  
