@@ -3,7 +3,8 @@ tmp/
 
 # Used by dotenv library to load environment variables.
 .env
-**/group_vars/all*
+
+# Make sure NO inventory file gets checked in EVER. It may contain secret keys etc !!
 **/inventory/inventory*
 
 # Ansible

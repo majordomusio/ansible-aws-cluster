@@ -1,0 +1,6 @@
+- name: Teardown Infrastructure
+  hosts: localhost
+  roles:
+#  - role: teardown_default_security_group
+  - role: teardown_security_groups
+  - role: teardown_vpc

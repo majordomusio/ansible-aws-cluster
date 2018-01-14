@@ -1,0 +1,24 @@
+
+- name: Delete intra-node security group
+  ec2_group:
+    name: "{{namespace}}_vpc"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete public-ingress security group
+  ec2_group:
+    name: "{{namespace}}_public_ingress"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete public-egress security group
+  ec2_group:
+    name: "{{namespace}}_public_egress"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete ssh security group
+  ec2_group:
+    name: "{{namespace}}_ssh"
+    region: "{{region}}"
+    state: "absent"

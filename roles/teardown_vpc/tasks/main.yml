@@ -1,0 +1,30 @@
+---
+- name: Gather VPC facts
+  ec2_vpc_net_facts:
+    region: "{{ region }}"
+    filters:
+      "tag:Name": "{{namespace}}_vpc"
+  register: vpc_facts
+
+- name: Remove subnets and route tables from VPC
+  local_action:
+    module: ec2_vpc
+    vpc_id: "{{ item.id }}"
+    region: "{{ region }}"
+    state: present
+    resource_tags: "{}"
+    subnets: []
+    internet_gateway: False
+    route_tables: []
+    wait: yes
+  with_items: "{{ vpc_facts.vpcs }}"
+
+- name: Delete VPC
+  local_action:
+    module: ec2_vpc
+    vpc_id: "{{ item.id }}"
+    region: "{{ region }}"
+    state: absent
+    resource_tags: "{}"
+    wait: yes  
+  with_items: "{{ vpc_facts.vpcs }}"    
