@@ -1,4 +1,25 @@
 # Instance configuration
+ami_id: ami-b15897c8
+instance_user: root
+
+# Spot prices
+bastion_spot_price: 0.10
+master_spot_price: 0.10
+node_spot_price: 0.10
+
+# Cluster size
+app_nodes: 1
+master_nodes: 1
+
+# Instance sizes
+bastion_ami_size: "t2.small"
+master_ami_size: "m4.large"
+node_ami_size: "m4.large"
+
+# Volume size
+master_root_volume_size: 50
+node_root_volume_size: 30
+docker_volume_size: 50
 
 # Networking
 vpc_cidr: "10.0.0.0/16"

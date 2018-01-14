@@ -1,6 +1,8 @@
 - name: Teardown Infrastructure
   hosts: localhost
   roles:
+  - role: teardown_virtual_machines
 #  - role: teardown_default_security_group
   - role: teardown_security_groups
   - role: teardown_vpc
+  

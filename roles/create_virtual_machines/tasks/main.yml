@@ -1,0 +1,123 @@
+
+- name: Find ami id with ami
+  ec2_ami_find:
+     ami_id: "{{ami_id}}"
+     region: "{{region}}"
+  register: "ami_find"
+
+- name: Provision master
+  ec2:
+    instance_type: "{{master_ami_size}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
+    region: "{{region}}"
+    spot_price: "{{ master_spot_price }}"
+    spot_wait_timeout: 300
+    wait: true
+    key_name: "{{key_name}}"
+    vpc_subnet_id: "{{subnet_facts['subnet']['id']}}"
+    group: ['{{namespace}}_vpc', '{{namespace}}_public_ingress', '{{namespace}}_public_egress', '{{namespace}}_ssh']
+    volumes:
+      - device_name: "{{ami_find['results'][0]['root_device_name']}}" 
+        volume_size: "{{master_root_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+      - device_name: "/dev/xvdb"
+        volume_size: "{{docker_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+    count_tag:
+      Name: "master_{{namespace}}"
+    instance_tags:
+      "{'Name':'master_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}'}"
+    exact_count: 1
+  register: ec2_master
+
+- name: Allocate a new elastic IP and associate it with master
+  ec2_eip:
+   device_id: "{{ec2_master['tagged_instances'][0]['id']}}"
+   region: "{{region}}"
+   in_vpc: "yes"
+   release_on_disassociation: true
+  register: master_elastic_ip
+
+- name: Provision nodes
+  ec2:
+    instance_type: "{{node_ami_size}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
+    region: "{{region}}"
+    spot_price: "{{ node_spot_price }}"
+    spot_wait_timeout: 300
+    wait: true
+    key_name: "{{key_name}}"
+    vpc_subnet_id: "{{subnet_facts['subnet']['id']}}"
+    group: ['{{namespace}}_vpc', '{{namespace}}_public_ingress', '{{namespace}}_public_egress', '{{namespace}}_ssh']
+    volumes:
+      - device_name: "{{ami_find['results'][0]['root_device_name']}}"
+        volume_size: "{{node_root_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+      - device_name: "/dev/xvdb"
+        volume_size: "{{docker_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+    count_tag:
+      Name: "node{{item}}_{{namespace}}"
+    instance_tags:
+      "{'Name':'node{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}'}"
+    exact_count: 1
+    assign_public_ip: yes
+  with_sequence: start=1 end={{app_nodes|int}}
+  register: ec2_nodes
+
+- name: Provision bastion
+  ec2:
+    instance_type: "{{bastion_ami_size}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
+    region: "{{region}}"
+    spot_price: "{{ bastion_spot_price }}"
+    spot_wait_timeout: 300
+    wait: true
+    key_name: "{{key_name}}"
+    vpc_subnet_id: "{{subnet_facts['subnet']['id']}}"
+    group: ['{{namespace}}_vpc', '{{namespace}}_public_ingress', '{{namespace}}_public_egress', '{{namespace}}_ssh']
+    count_tag:
+      Name: "bastion_{{namespace}}"
+    instance_tags:
+      Name: "bastion_{{namespace}}"
+      namespace: "{{namespace}}"
+    exact_count: 1
+    assign_public_ip: yes
+  register: ec2_bastion
+
+- name: Register VM facts
+  set_fact:
+   master_private_ip: "{{ec2_master['tagged_instances'][0]['private_ip']}}"
+   master_public_ip: "{{master_elastic_ip['public_ip']}}"
+   master_private_dns_name: "{{ec2_master['tagged_instances'][0]['private_dns_name']}}"
+   bastion_private_ip: "{{ec2_bastion['tagged_instances'][0]['private_ip']}}"
+   bastion_public_ip: "{{ec2_bastion['tagged_instances'][0]['public_ip']}}"
+
+# Create a dict of node public and private ip addresses
+- name: Register Node facts
+  set_fact:
+    nodes_ip: "{{ nodes_ip|default([]) + [ {'index': item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'private_dns_name': item.tagged_instances[0].private_dns_name, 'gluster': false} ] }}"
+  with_items: "{{ec2_nodes.results}}"
+
+- debug:
+    msg: "{{ nodes_ip }}"
+
+- name: Wait for master and bastion SSH to come up
+  local_action: wait_for 
+                host={{ item }} 
+                port=22 
+                state=started
+  with_items: 
+    - "{{bastion_public_ip}}"
+    - "{{master_public_ip}}"
+
+- name: Wait for node SSH to come up
+  local_action: wait_for 
+                host={{ item.public_ip }} 
+                port=22 
+                state=started
+  with_items: "{{ nodes_ip }}"
