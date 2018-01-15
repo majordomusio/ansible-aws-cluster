@@ -2,3 +2,10 @@
 - name: Upgrade packages on all nodes
   yum: name=* state=latest
   become: true
+
+- name: Install EPEL
+  yum:
+    name:
+      - "epel-release"
+    state: "present"
+  become: true

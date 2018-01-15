@@ -1,0 +1,30 @@
+
+- name: Upgrade packages on bastion
+  yum: name=* state=latest
+  delegate_to: "{{ bastion_public_ip }}"
+  remote_user: "{{ deploy_user }}"
+  become: true
+
+- name: Install EPEL
+  yum:
+    name:
+      - "epel-release"
+    state: "present"
+  delegate_to: "{{ bastion_public_ip }}"
+  remote_user: "{{ deploy_user }}"
+  become: true
+
+- name: Install essential packages on bastion
+  yum:
+    name:
+      - "git"
+      - "@Development Tools"
+      - "openssl-devel"
+      - "python-devel"
+      - "gcc"
+      - "libffi-devel"
+      - "ansible"
+    state: "present"
+  delegate_to: "{{ bastion_public_ip }}"
+  remote_user: "{{ deploy_user }}"
+  become: true

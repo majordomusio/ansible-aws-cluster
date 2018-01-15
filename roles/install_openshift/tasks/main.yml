@@ -1,20 +1,4 @@
 
-- name: Install essential packages on bastion
-  yum:
-    name:
-      - "git"
-      - "@Development Tools"
-      - "openssl-devel"
-      - "python-devel"
-      - "gcc"
-      - "libffi-devel"
-      - "ansible"
-#      - "atomic-openshift-utils"
-    state: "present"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
-  become: true
-
 - name: Copy inventory for OpenShift installation
   template:
     src: "../files/openshift_inventory.cfg"
@@ -22,7 +6,7 @@
   delegate_to: "{{ bastion_public_ip }}"
   remote_user: "{{ deploy_user }}"
 
-- name: Checkout OpenShift Ansible repo on bastion
+- name: Checkout openshift-ansible on bastion
   git:
     repo: "https://github.com/openshift/openshift-ansible"
     dest: "~{{ deploy_user }}/openshift-ansible"
