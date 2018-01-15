@@ -1,0 +1,43 @@
+
+- name: Generating bastion key for ec2-user
+  user:
+    name: "{{ amazon_user }}"
+    generate_ssh_key: yes
+  delegate_to: "{{ bastion_public_ip }}"
+  remote_user: "{{ instance_user }}"
+
+- name: Register bastion pub key
+  shell: "cat /home/{{ amazon_user }}/.ssh/id_rsa.pub"
+  delegate_to: "{{ bastion_public_ip }}"
+  remote_user: "{{ instance_user }}"
+  register: "bastion_rsa_pub"
+
+- name: Create a user ec2-user on master
+  user:
+    name: "{{ amazon_user }}"
+    generate_ssh_key: false
+  delegate_to: "{{ item }}"
+  remote_user: "{{ instance_user }}"
+  with_items:
+  - "{{master_public_ip}}"
+
+- name: Create a user ec2-user on nodes
+  user:
+    name: "{{ amazon_user }}"
+    generate_ssh_key: false
+  delegate_to: "{{ item.public_ip }}"
+  remote_user: "{{ instance_user }}"
+  with_items:
+  - "{{nodes_ip}}"
+
+- name: Install bastion pub key on master
+  authorized_key: user="{{ amazon_user }}" key="{{ bastion_rsa_pub.stdout }}"
+  delegate_to: "{{ master_public_ip }}"
+  remote_user: "{{ instance_user }}"
+
+- name: Install bastion pub key on nodes
+  authorized_key: user="{{ amazon_user }}" key="{{ bastion_rsa_pub.stdout }}"
+  delegate_to: "{{ item.public_ip }}"
+  remote_user: "{{ instance_user }}"
+  with_items:
+   - "{{nodes_ip}}"

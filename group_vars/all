@@ -1,11 +1,12 @@
 # Instance configuration
 ami_id: ami-b15897c8
 instance_user: root
+amazon_user: ec2-user
 
 # Spot prices
-bastion_spot_price: 0.10
-master_spot_price: 0.10
-node_spot_price: 0.10
+bastion_spot_price: 0.08
+master_spot_price: 0.08
+node_spot_price: 0.08
 
 # Cluster size
 app_nodes: 1

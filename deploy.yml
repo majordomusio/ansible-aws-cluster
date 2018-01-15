@@ -7,4 +7,5 @@
     - role: create_security_groups
     - role: create_virtual_machines
     - role: create_dns
-    
+    - role: create_ssh
+    - role: create_host_groups

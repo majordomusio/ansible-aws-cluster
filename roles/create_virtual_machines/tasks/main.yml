@@ -30,15 +30,8 @@
     instance_tags:
       "{'Name':'master_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}'}"
     exact_count: 1
+    assign_public_ip: yes
   register: ec2_master
-
-- name: Allocate a new elastic IP and associate it with master
-  ec2_eip:
-   device_id: "{{ec2_master['tagged_instances'][0]['id']}}"
-   region: "{{region}}"
-   in_vpc: "yes"
-   release_on_disassociation: true
-  register: master_elastic_ip
 
 - name: Provision nodes
   ec2:
@@ -92,11 +85,11 @@
 - name: Register VM facts
   set_fact:
    master_private_ip: "{{ec2_master['tagged_instances'][0]['private_ip']}}"
-   master_public_ip: "{{master_elastic_ip['public_ip']}}"
+   master_public_ip: "{{ec2_master['tagged_instances'][0]['public_ip']}}"
    master_private_dns_name: "{{ec2_master['tagged_instances'][0]['private_dns_name']}}"
    bastion_private_ip: "{{ec2_bastion['tagged_instances'][0]['private_ip']}}"
    bastion_public_ip: "{{ec2_bastion['tagged_instances'][0]['public_ip']}}"
-
+  
 # Create a dict of node public and private ip addresses
 - name: Register Node facts
   set_fact:
