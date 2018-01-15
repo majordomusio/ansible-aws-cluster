@@ -19,7 +19,7 @@
   delegate_to: "{{ item }}"
   remote_user: "{{ instance_user }}"
   with_items:
-  - "{{master_public_ip}}"
+    - "{{master_public_ip}}"
 
 - name: Create a user ec2-user on nodes
   user:
@@ -28,7 +28,7 @@
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
-  - "{{nodes_ip}}"
+    - "{{nodes_ip}}"
 
 - name: Install bastion pub key on master
   authorized_key: user="{{ amazon_user }}" key="{{ bastion_rsa_pub.stdout }}"
@@ -40,4 +40,4 @@
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
-   - "{{nodes_ip}}"
+    - "{{nodes_ip}}"
