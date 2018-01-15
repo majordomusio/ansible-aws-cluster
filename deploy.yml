@@ -1,6 +1,9 @@
+
 - name: Prepare Infrastructure
   hosts: localhost
+
   gather_facts: false
+
   roles:
     - role: create_vpc
 #    - role: create_default_security_group
@@ -9,3 +12,13 @@
     - role: create_dns
     - role: create_ssh
     - role: create_host_groups
+
+- name: Register and update virtual machines
+  hosts: created_vms
+  remote_user: "{{ deploy_user }}"
+
+  vars:
+    state: 'present'
+
+  roles:
+    - update_virtual_machines    
