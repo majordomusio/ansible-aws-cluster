@@ -43,5 +43,19 @@ install_prometheus: false
 # Whether to install logging
 install_logging: false
 
+# Users to create in OpenShift, highly recommend changing password
+# Set admin to true for users you want to be the cluster administrator
+# Any admin users are also added to master linux VM for cockpit
+users:
+  - {name: admin, password: Welcome1, admin: true}
+
+# Generates a set of non-admin users that can be used for workshops,
+# demos, etc. Users are created with the prefix plus a number using
+# the password specified
+create_generic_user: true
+generic_user_prefix: developer
+generic_user_count: 5
+generic_user_password: Welcome1
+
 # This must match what is in /openshift-install/files/openshift_inventory.cfg
 htpasswd_path: "/etc/origin/master/htpasswd"
