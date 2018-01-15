@@ -13,7 +13,7 @@
     - role: create_ssh
     - role: create_host_groups
 
-- name: Register and update virtual machines
+- name: Update virtual machines
   hosts: created_vms
   remote_user: "{{ deploy_user }}"
 
@@ -21,4 +21,5 @@
     state: 'present'
 
   roles:
-    - update_virtual_machines    
+    - update_virtual_machines
+
