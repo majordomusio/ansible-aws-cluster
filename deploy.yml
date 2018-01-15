@@ -13,13 +13,32 @@
     - role: create_ssh
     - role: create_host_groups
 
-- name: Update virtual machines
-  hosts: created_vms
+
+#- name: Update virtual machines
+#  hosts: created_vms
+#  remote_user: "{{ deploy_user }}"
+
+#  vars:
+#    state: 'present'
+
+#  roles:
+#    - update_virtual_machines
+
+
+- name: Setup nodes
+  hosts: created_nodes
   remote_user: "{{ deploy_user }}"
 
   vars:
     state: 'present'
 
   roles:
-    - update_virtual_machines
+    - role: openshift_prepare
 
+
+- name: Install OpenShift
+  hosts: localhost
+  remote_user: "{{ deploy_user }}"
+
+  roles:
+    - role: openshift_install

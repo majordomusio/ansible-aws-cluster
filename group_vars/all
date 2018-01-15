@@ -11,7 +11,7 @@ node_spot_price: 0.08
 # Cluster size
 master_nodes: 1
 infra_nodes: 0
-app_nodes: 1
+app_nodes: 2
 
 # Instance sizes
 bastion_ami_size: "t2.small"
@@ -31,3 +31,17 @@ subnet_cidr: "10.0.1.0/24"
 dns_zone: ocp.local
 public_dns_zone: banga.mx
 public_subdomain_prefix: apps
+
+# Openshift configuration
+openshift_branch: "release-3.7"
+deployment_type: "origin"
+
+# Whether to install metrics
+install_metrics: false
+# Whether to install prometheus
+install_prometheus: false
+# Whether to install logging
+install_logging: false
+
+# This must match what is in /openshift-install/files/openshift_inventory.cfg
+htpasswd_path: "/etc/origin/master/htpasswd"
