@@ -5,25 +5,21 @@
     generate_ssh_key: yes
   delegate_to: "{{ bastion_public_ip }}"
   remote_user: "{{ deploy_user }}"
-#  remote_user: "{{ instance_user }}"
 
 - name: Register bastion pub key
   shell: "cat /home/{{ deploy_user }}/.ssh/id_rsa.pub"
   delegate_to: "{{ bastion_public_ip }}"
-#  remote_user: "{{ instance_user }}"
   remote_user: "{{ deploy_user }}"
   register: "bastion_rsa_pub"
 
 - name: Install bastion pub key on master
   authorized_key: user="{{ deploy_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ master_public_ip }}"
-#  remote_user: "{{ instance_user }}"
   remote_user: "{{ deploy_user }}"
 
 - name: Install bastion pub key on nodes
   authorized_key: user="{{ deploy_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ item.public_ip }}"
-#  remote_user: "{{ instance_user }}"
   remote_user: "{{ deploy_user }}"
   with_items:
     - "{{nodes_ip}}"
