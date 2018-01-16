@@ -11,7 +11,7 @@
 - name: Add master A record 
   route53:
     zone: "{{namespace}}.local"
-    record: "master.{{private_dns_zone}}"
+    record: "master.{{namespace}}.local"
     type: A
     ttl: 300
     value: "{{master_private_ip}}"
@@ -24,7 +24,7 @@
 - name: Add node A records 
   route53:
     zone: "{{namespace}}.local"
-    record: "node{{item.index}}.{{private_dns_zone}}"
+    record: "node{{item.index}}.{{namespace}}.local"
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
