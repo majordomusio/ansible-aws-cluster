@@ -20,7 +20,7 @@
   when: item.admin
   with_items: "{{ users }}"
   delegate_to: "{{ master_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
   become: true
 
 - name: oc login as admin users for cockpit to work
@@ -28,6 +28,6 @@
   when: item.admin
   with_items: "{{ users }}"
   delegate_to: "{{ master_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
   sudo: true
   sudo_user: "{{ item.name }}"

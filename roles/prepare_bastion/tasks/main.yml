@@ -2,7 +2,7 @@
 - name: Upgrade packages on bastion
   yum: name=* state=latest
   delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
   become: true
 
 - name: Install EPEL
@@ -11,7 +11,7 @@
       - "epel-release"
     state: "present"
   delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
   become: true
 
 - name: Install additional packages on bastion
@@ -26,21 +26,21 @@
       - "ansible"
     state: "present"
   delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
   become: true
 
 - name: Checkout openshift-ansible playbooks
   git:
     repo: "https://github.com/openshift/openshift-ansible"
-    dest: "~{{ deploy_user }}/openshift-ansible"
+    dest: "~{{ instance_user }}/openshift-ansible"
     version: "{{ openshift_branch }}"
   delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
 
 - name: Copy script for OpenShift istallation
   template:
     src: "../files/install-openshift.sh"
-    dest: "~{{ deploy_user }}/install-openshift.sh"
+    dest: "~{{ instance_user }}/install-openshift.sh"
     mode: "0775"
   delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"

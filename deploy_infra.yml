@@ -17,7 +17,7 @@
   roles:
     - update_virtual_machines
     - update_docker
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
 
 - name: Prepare Inventories
   hosts: localhost

@@ -2,6 +2,6 @@
 - name: Copy single master inventory
   template:
     src: "../files/single_master_inventory.cfg"
-    dest: "~{{ deploy_user }}/single_master_inventory.cfg"
+    dest: "~{{ instance_user }}/single_master_inventory.cfg"
   delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
-  remote_user: "{{ deploy_user }}"
+  remote_user: "{{ instance_user }}"
