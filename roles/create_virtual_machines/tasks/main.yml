@@ -1,8 +1,14 @@
 
+- name: Find AMI
+  ec2_ami_find:
+     ami_id: "{{ami_id}}"
+     region: "{{region}}"
+  register: "ami_find"
+
 - name: Provision master
   ec2:
     instance_type: "{{master_ami_size}}"
-    image:  "{{ami_id}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
     spot_price: "{{ master_spot_price }}"
     spot_wait_timeout: 300
@@ -22,7 +28,7 @@
     count_tag:
       Name: "master_{{namespace}}"
     instance_tags:
-      "{'Name':'master_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}'}"
+      "{'Name':'master_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
     exact_count: 1
     assign_public_ip: yes
   register: ec2_master
@@ -30,7 +36,7 @@
 - name: Provision nodes
   ec2:
     instance_type: "{{node_ami_size}}"
-    image:  "{{ami_id}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
     spot_price: "{{ node_spot_price }}"
     spot_wait_timeout: 300
@@ -50,7 +56,7 @@
     count_tag:
       Name: "node{{item}}_{{namespace}}"
     instance_tags:
-      "{'Name':'node{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}'}"
+      "{'Name':'node{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
     exact_count: 1
     assign_public_ip: yes
   with_sequence: start=1 end={{app_nodes|int}}

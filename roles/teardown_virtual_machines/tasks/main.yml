@@ -1,9 +1,11 @@
 
+# WARNING: THIS DELETES ALL INSTANCES AND VOLUMES. TOTAL WIPE-OUT. YOU HAVE BEEN WARNED!.
+
 - name: Gather EC2 facts
   ec2_remote_facts:
     region: "{{ region }}"
     filters:
-      "tag:namespace": "{{namespace}}"
+      "tag:role": "{{namespace}}_infra"
   register: ec2_facts
 
 - name: Terminate EC2 VMs

@@ -15,6 +15,7 @@
     instance_tags:
       Name: "bastion_{{ namespace }}"
       namespace: "{{ namespace }}"
+      role: "{{ namespace }}_bastion"
     exact_count: 1
     assign_public_ip: yes
   register: ec2_bastion
