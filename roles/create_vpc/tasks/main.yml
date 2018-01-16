@@ -47,6 +47,6 @@
   set_fact:
    vpc_id: "{{vpc_facts['vpc']['id']}}"
 
-- name: set availability zone fact
+- name: Set availability zone fact
   set_fact:
     availability_zone: "{{subnet_facts['subnet']['availability_zone']}}"

@@ -3,7 +3,6 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - role: create_vpc
     - role: create_security_groups
     - role: create_virtual_machines
     - role: create_dns

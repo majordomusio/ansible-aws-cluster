@@ -1,0 +1,12 @@
+
+- name: Delete intra-node security group
+  ec2_group:
+    name: "{{namespace}}_vpc"
+    region: "{{region}}"
+    state: "absent"
+
+- name: Delete bastion security group
+  ec2_group:
+    name: "{{namespace}}_bastion"
+    region: "{{region}}"
+    state: "absent"

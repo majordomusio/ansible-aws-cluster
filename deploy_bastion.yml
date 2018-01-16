@@ -1,0 +1,9 @@
+
+- name: Prepare Infrastructure and bastion host
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: create_vpc
+    - role: create_default_security_groups
+    - role: create_bastion
+

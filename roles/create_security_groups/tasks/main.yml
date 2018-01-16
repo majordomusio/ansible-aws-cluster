@@ -1,23 +1,4 @@
 
-#This security group allows intra-node communication on all ports with all protocols.
-- name: Create intra-node security group
-  ec2_group:
-    name: "{{namespace}}_vpc"
-    description: "Default security group that allows all instances in the VPC to talk to each other over any port and protocol."
-    vpc_id: "{{vpc_id}}"
-    region: "{{region}}"
-    state: "present"
-    rules:
-      - proto: "-1"
-        from_port: "0"
-        to_port: "0"
-        group_name: "{{namespace}}_vpc"
-    rules_egress:
-      - proto: "-1"
-        from_port: "0"
-        to_port: "0"
-        group_name: "{{namespace}}_vpc"
-
 #  This security group allows public ingress to the instances for HTTP, HTTPS and common HTTP/S proxy ports.
 - name: Create public-ingress security group
   ec2_group:
@@ -73,7 +54,7 @@
         to_port: "8443"
         cidr_ip: "0.0.0.0/0"
 
-# Security group which allows SSH access to a host. Used for the bastion.
+# Security group which allows SSH access to a host.
 - name: Create ssh security group
   ec2_group:
     name: "{{namespace}}_ssh"
