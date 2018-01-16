@@ -8,19 +8,6 @@
      comment: "Internal zone for {{namespace}}"
   register: aws_zone
 
-- name: Add bastion A record
-  route53:
-    zone: "{{private_dns_zone}}"
-    record: "bastion.{{private_dns_zone}}"
-    type: A
-    ttl: 300
-    value: "{{bastion_private_ip}}"
-    wait: yes
-    vpc_id: "{{vpc_id}}"
-    private_zone: true
-    command: "create"
-    overwrite: yes
-
 - name: Add master A record 
   route53:
     zone: "{{private_dns_zone}}"

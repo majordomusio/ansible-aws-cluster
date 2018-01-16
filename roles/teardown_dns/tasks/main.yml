@@ -7,7 +7,6 @@
 - name: Delete master and bastion routes
   include: delete-route.yml zone={{ private_dns_zone }} record="{{item}}.{{ private_dns_zone }}" private_zone="true"
   with_items:
-    - "bastion"
     - "master"
 
 - name: Delete node routes
@@ -20,12 +19,10 @@
      zone: "{{private_dns_zone}}"
      state: "absent"
      vpc_region: "{{region}}"
-  #ignore_errors: yes
-  register: delete_output
 
-- name: Delete Public Route
-  include: delete-route.yml zone={{ public_dns_zone }} record={{ public_dns_zone }} private_zone="false"
+#- name: Delete Public Route
+#  include: delete-route.yml zone={{ public_dns_zone }} record={{ public_dns_zone }} private_zone="false"
 
-- name: Delete Public Wildcard Route
-  include: delete-route.yml zone={{ public_dns_zone }} record="*.{{public_subdomain_prefix}}.{{ public_dns_zone }}" private_zone="false"
+#- name: Delete Public Wildcard Route
+#  include: delete-route.yml zone={{ public_dns_zone }} record="*.{{public_subdomain_prefix}}.{{ public_dns_zone }}" private_zone="false"
   

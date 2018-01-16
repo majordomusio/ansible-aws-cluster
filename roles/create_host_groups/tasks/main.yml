@@ -1,12 +1,11 @@
 
-- name: Add master/bastion to created_vms group
+- name: Add master to created_vms group
   add_host:
     name={{ item.ip }}
     groups=created_vms
     instance_name={{ item.name }}
   with_items:
     - { name: 'master', ip: '{{master_public_ip}}' }
-    - { name: 'bastion', ip: '{{bastion_public_ip}}' }  
 
 - name: Add nodes to created_vms group
   add_host:

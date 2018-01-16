@@ -4,4 +4,4 @@
   roles:
   - role: teardown_virtual_machines
   - role: teardown_security_groups
-#  - role: teardown_dns
+  - role: teardown_dns
