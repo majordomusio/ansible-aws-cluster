@@ -7,7 +7,7 @@
 
 - name: Provision master
   ec2:
-    instance_type: "{{master_ami_size}}"
+    instance_type: "{{master_instance_type}}"
     image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
     spot_price: "{{ master_spot_price }}"
@@ -35,7 +35,7 @@
 
 - name: Provision nodes
   ec2:
-    instance_type: "{{node_ami_size}}"
+    instance_type: "{{node_instance_type}}"
     image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
     spot_price: "{{ node_spot_price }}"
