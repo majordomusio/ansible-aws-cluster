@@ -22,4 +22,4 @@
 - name: Prepare Inventories
   hosts: localhost
   roles:
-    - role: prepare_inventory
+    - role: prepare_inventories

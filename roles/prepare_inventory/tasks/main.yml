@@ -1,7 +1,0 @@
-
-- name: Copy and patch inventory for OpenShift installation
-  template:
-    src: "../files/openshift_inventory.cfg"
-    dest: "~{{ deploy_user }}/openshift_inventory.cfg"
-  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
-  remote_user: "{{ deploy_user }}"
