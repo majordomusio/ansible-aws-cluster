@@ -22,20 +22,7 @@ node_spot_price: 0.08
 
 # Cluster size
 master_nodes: 1
-infra_nodes: 0
 app_nodes: 2
-
-# Volume size
-master_root_volume_size: 50
-node_root_volume_size: 30
-docker_volume_size: 50
-
-# Private DNS zone setup
-private_dns_zone: ocp.local
-
-# Networking
-vpc_cidr: "10.0.0.0/16"
-subnet_cidr: "10.0.1.0/24"
 
 # Openshift configuration
 openshift_branch: "release-3.7"
@@ -48,3 +35,13 @@ install_prometheus: false
 # Whether to install logging
 install_logging: false
 
+# ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
+
+# Volume size
+master_root_volume_size: 50
+node_root_volume_size: 30
+docker_volume_size: 50
+
+# Networking
+vpc_cidr: "10.0.0.0/16"
+subnet_cidr: "10.0.1.0/24"
