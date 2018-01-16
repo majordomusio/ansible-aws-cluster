@@ -38,6 +38,7 @@ install_logging: false
 # ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
 
 # Volume size
+bastion_root_volume_size: 20
 master_root_volume_size: 50
 node_root_volume_size: 30
 docker_volume_size: 50

@@ -47,7 +47,7 @@
     volumes:
       - device_name: "{{ami_find['results'][0]['root_device_name']}}"
         volume_size: "{{node_root_volume_size}}"
-        volume_type: gp2        
+        volume_type: gp2
         delete_on_termination: true
       - device_name: "/dev/xvdb"
         volume_size: "{{docker_volume_size}}"
