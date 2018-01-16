@@ -37,13 +37,6 @@
   delegate_to: "{{ bastion_public_ip }}"
   remote_user: "{{ deploy_user }}"
 
-- name: Copy inventory for OpenShift installation
-  template:
-    src: "../files/openshift_inventory.cfg"
-    dest: "~{{ deploy_user }}/openshift_inventory.cfg"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
-
 - name: Copy script for OpenShift istallation
   template:
     src: "../files/install-openshift.sh"

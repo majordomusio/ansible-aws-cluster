@@ -3,12 +3,12 @@
   user:
     name: "{{ deploy_user }}"
     generate_ssh_key: yes
-  delegate_to: "{{ bastion_public_ip }}"
+  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
   remote_user: "{{ deploy_user }}"
 
 - name: Register bastion pub key
   shell: "cat /home/{{ deploy_user }}/.ssh/id_rsa.pub"
-  delegate_to: "{{ bastion_public_ip }}"
+  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
   remote_user: "{{ deploy_user }}"
   register: "bastion_rsa_pub"
 
@@ -26,12 +26,12 @@
 
 - name: Run ssh-keyscan to add master to known_hosts
   local_action: shell ssh-keyscan {{ master_private_dns_name }} >> ~/.ssh/known_hosts
-  delegate_to: "{{ bastion_public_ip }}"
+  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
   remote_user: "{{ deploy_user }}"
   
 - name: Run ssh-keyscan to add nodes to known_hosts
   local_action: shell ssh-keyscan {{ item.private_dns_name }} >> ~/.ssh/known_hosts
-  delegate_to: "{{ bastion_public_ip }}"
+  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
   remote_user: "{{ deploy_user }}"
   with_items:
    - "{{nodes_ip}}" 
