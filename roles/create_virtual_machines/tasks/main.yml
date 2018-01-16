@@ -1,14 +1,8 @@
 
-- name: Find AMI
-  ec2_ami_find:
-     ami_id: "{{ami_id}}"
-     region: "{{region}}"
-  register: "ami_find"
-
 - name: Provision master
   ec2:
     instance_type: "{{master_ami_size}}"
-    image:  "{{ami_find['results'][0]['ami_id']}}"
+    image:  "{{ami_id}}"
     region: "{{region}}"
     spot_price: "{{ master_spot_price }}"
     spot_wait_timeout: 300
@@ -36,7 +30,7 @@
 - name: Provision nodes
   ec2:
     instance_type: "{{node_ami_size}}"
-    image:  "{{ami_find['results'][0]['ami_id']}}"
+    image:  "{{ami_id}}"
     region: "{{region}}"
     spot_price: "{{ node_spot_price }}"
     spot_wait_timeout: 300
@@ -65,7 +59,7 @@
 - name: Provision bastion
   ec2:
     instance_type: "{{bastion_ami_size}}"
-    image:  "{{ami_find['results'][0]['ami_id']}}"
+    image:  "{{ami_id}}"
     region: "{{region}}"
     spot_price: "{{ bastion_spot_price }}"
     spot_wait_timeout: 300

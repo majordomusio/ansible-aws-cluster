@@ -1,5 +1,10 @@
+# See https://wiki.centos.org/Cloud/AWS
+# for a list of official CentOS Public Images
+
+#ami_id: ami-b15897c8
+ami_id: ami-0d063c6b
+
 # Instance configuration
-ami_id: ami-b15897c8
 instance_user: root
 deploy_user: centos
 
