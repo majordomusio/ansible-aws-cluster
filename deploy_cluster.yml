@@ -10,13 +10,13 @@
     - role: create_ssh
     - role: create_host_groups
 
-- name: Prepare nodes
+- name: Update Nodes
   hosts: created_nodes
   vars:
     state: 'present'
   roles:
     - update_virtual_machines
-    - prepare_nodes
+    - update_docker
   remote_user: "{{ deploy_user }}"
 
 - name: Install OpenShift

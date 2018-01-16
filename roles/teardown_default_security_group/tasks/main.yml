@@ -1,6 +1,0 @@
-
-- name: Delete the default security group
-  ec2_group:
-    name: '{{namespace}}_default_security_group'
-    region: "{{region}}"
-    state: "absent"
