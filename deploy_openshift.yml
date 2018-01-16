@@ -1,0 +1,14 @@
+
+- name: Install OpenShift
+  hosts: localhost
+  roles:
+    - role: install_openshift
+    - role: configure_openshift
+
+  post_tasks:
+  - name: Confirmation message
+    debug:
+      msg:
+      - 'The script has completed successfully.'
+      - 'Master public IP: {{master_public_ip}}'
+      - 'OpenShift console: https://{{public_dns_zone}}:8443'

@@ -1,7 +1,6 @@
 
-# See https://wiki.centos.org/Cloud/AWS for a list of official CentOS Public Images
+# See https://wiki.centos.org/Cloud/AWS for a list of official CentOS 7 Public Images
 
-#ami_id: ami-b15897c8
 ami_id: ami-0d063c6b
 
 # Instance configuration
@@ -11,7 +10,7 @@ deploy_user: centos
 # See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
 
 # Spot prices
-bastion_spot_price: 0.08
+bastion_spot_price: 0.05
 master_spot_price: 0.08
 node_spot_price: 0.08
 
@@ -35,7 +34,7 @@ vpc_cidr: "10.0.0.0/16"
 subnet_cidr: "10.0.1.0/24"
 
 # DNS zones
-dns_zone: ocp.local
+private_dns_zone: ocp.local
 public_dns_zone: banga.mx
 public_subdomain_prefix: apps
 

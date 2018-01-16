@@ -1,7 +1,7 @@
 
 - name: Create DNS zone for openshift
   route53_zone:
-     zone: "{{dns_zone}}"
+     zone: "{{private_dns_zone}}"
      state: "present"
      vpc_id: "{{vpc_id}}"
      vpc_region: "{{region}}"
@@ -10,8 +10,8 @@
 
 - name: Add bastion A record
   route53:
-    zone: "{{dns_zone}}"
-    record: "bastion.{{dns_zone}}"
+    zone: "{{private_dns_zone}}"
+    record: "bastion.{{private_dns_zone}}"
     type: A
     ttl: 300
     value: "{{bastion_private_ip}}"
@@ -23,8 +23,8 @@
 
 - name: Add master A record 
   route53:
-    zone: "{{dns_zone}}"
-    record: "master.{{dns_zone}}"
+    zone: "{{private_dns_zone}}"
+    record: "master.{{private_dns_zone}}"
     type: A
     ttl: 300
     value: "{{master_private_ip}}"
@@ -36,8 +36,8 @@
 
 - name: Add node A records 
   route53:
-    zone: "{{dns_zone}}"
-    record: "node{{item.index}}.{{dns_zone}}"
+    zone: "{{private_dns_zone}}"
+    record: "node{{item.index}}.{{private_dns_zone}}"
     type: A
     ttl: 300
     value: "{{item.private_ip}}"

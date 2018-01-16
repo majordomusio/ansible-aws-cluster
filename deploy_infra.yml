@@ -1,0 +1,19 @@
+
+- name: Prepare Infrastructure
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: create_security_groups
+    - role: create_virtual_machines
+    - role: create_dns
+    - role: create_ssh
+    - role: create_host_groups
+
+- name: Update Nodes
+  hosts: created_nodes
+  vars:
+    state: 'present'
+  roles:
+    - update_virtual_machines
+    - update_docker
+  remote_user: "{{ deploy_user }}"

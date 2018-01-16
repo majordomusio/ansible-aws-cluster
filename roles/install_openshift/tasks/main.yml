@@ -1,27 +1,4 @@
 
-- name: Copy inventory for OpenShift installation
-  template:
-    src: "../files/openshift_inventory.cfg"
-    dest: "~{{ deploy_user }}/openshift_inventory.cfg"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
-
-- name: Checkout openshift-ansible on bastion
-  git:
-    repo: "https://github.com/openshift/openshift-ansible"
-    dest: "~{{ deploy_user }}/openshift-ansible"
-    version: "{{ openshift_branch }}"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
-
-- name: Copy script for OpenShift istallation
-  template:
-    src: "../files/install-openshift.sh"
-    dest: "~{{ deploy_user }}/install-openshift.sh"
-    mode: "0775"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ deploy_user }}"
-
 - name: Run OpenShift installation
   shell: './install-openshift.sh |& tee install-openshift.log'
   delegate_to: "{{ bastion_public_ip }}"

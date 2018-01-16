@@ -5,19 +5,19 @@
   register: hosted_zones
 
 - name: Delete master and bastion routes
-  include: delete-route.yml zone={{ dns_zone }} record="{{item}}.{{ dns_zone }}" private_zone="true"
+  include: delete-route.yml zone={{ private_dns_zone }} record="{{item}}.{{ private_dns_zone }}" private_zone="true"
   with_items:
     - "bastion"
     - "master"
 
 - name: Delete node routes
-  include: delete-route.yml zone={{ dns_zone }} record="node{{item}}.{{ dns_zone }}" private_zone="true"
+  include: delete-route.yml zone={{ private_dns_zone }} record="node{{item}}.{{ private_dns_zone }}" private_zone="true"
   with_sequence: start=1 end={{app_nodes|int}}
   ignore_errors: true
   
 - name: Delete private DNS zone
   route53_zone:
-     zone: "{{dns_zone}}"
+     zone: "{{private_dns_zone}}"
      state: "absent"
      vpc_region: "{{region}}"
   #ignore_errors: yes
