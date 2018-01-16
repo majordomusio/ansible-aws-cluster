@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
+
+INVENTORY="$1"
+if [ $INVENTORY == "" ]; then
+  INVENTORY="single_master_inventory.cfg"
+fi
+
 export ANSIBLE_HOST_KEY_CHECKING=False
-ansible-playbook -i ~{{instance_user}}/openshift_inventory.cfg ~{{instance_user}}/openshift-ansible/playbooks/byo/config.yml
+export INVENTORY
+
+ansible-playbook -i ~{{instance_user}}/$INVENTORY ~{{instance_user}}/openshift-ansible/playbooks/byo/config.yml
