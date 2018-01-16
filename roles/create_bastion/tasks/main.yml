@@ -24,11 +24,12 @@
    bastion_private_ip: "{{ec2_bastion['tagged_instances'][0]['private_ip']}}"
    bastion_public_ip: "{{ec2_bastion['tagged_instances'][0]['public_ip']}}"
   
-- name: Wait for bastion SSH to come up
-  local_action: wait_for 
-                host={{ item }} 
-                port=22 
-                state=started
-  with_items: 
-    - "{{bastion_public_ip}}"
-
+- name: Wait for SSH to come up
+  wait_for:
+    host: '{{ item }}'
+    port: 22
+    delay: 60
+    timeout: 300
+    state: started
+  with_items:
+    - "{{ bastion_public_ip }}"
