@@ -1,0 +1,39 @@
+
+- name: Provision masters
+  ec2:
+    instance_type: "{{infra_instance_type}}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
+    region: "{{region}}"
+    spot_price: "{{ infra_spot_price }}"
+    spot_wait_timeout: 300
+    wait: true
+    key_name: "{{key_name}}"
+    vpc_subnet_id: "{{subnet_facts['subnet']['id']}}"
+    group: ['{{namespace}}_vpc', '{{namespace}}_public_ingress', '{{namespace}}_public_egress', '{{namespace}}_ssh']
+    volumes:
+      - device_name: "{{ami_find['results'][0]['root_device_name']}}" 
+        volume_size: "{{master_root_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+      - device_name: "/dev/xvdb"
+        volume_size: "{{docker_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+    count_tag:
+      Name: "master{{item}}_{{namespace}}"
+    instance_tags:
+      "{'Name':'master{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
+    exact_count: 1
+    assign_public_ip: yes
+  with_sequence: start=1 end={{master_nodes|int}}
+  register: ec2_masters
+
+- name: Register master node facts
+  set_fact:
+    all_masters: "{{ all_masters|default([]) + [ {'index': item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'private_dns_name': item.tagged_instances[0].private_dns_name} ] }}"
+  with_items: "{{ ec2_masters.results }}"
+
+- debug:
+    msg:
+      - "BP2"
+      - "{{ all_masters|map(attribute='public_ip')|join(',') }}"

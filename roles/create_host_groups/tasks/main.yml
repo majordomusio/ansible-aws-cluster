@@ -1,30 +1,14 @@
 
-- name: Add master to created_vms group
-  add_host:
-    name={{ item.ip }}
-    groups=created_vms
-    instance_name={{ item.name }}
-  with_items:
-    - { name: 'master', ip: '{{master_public_ip}}' }
-
-- name: Add nodes to created_vms group
+- name: Add masters to created_nodes group
   add_host:
     name={{ item.public_ip }}
-    groups=created_vms
-    instance_name=node{{ item.index }}
-  with_items: "{{ nodes_ip }}"
-
-- name: Add master to created_nodes group
-  add_host:
-    name={{ item.ip }}
     groups=created_nodes
-    instance_name={{ item.name }}
-  with_items:
-    - { name: 'master', ip: '{{master_public_ip}}' }
+    instance_name=node{{ item.index }}
+  with_items: "{{ all_masters }}"
 
 - name: Add nodes to created_nodes group
   add_host:
     name={{ item.public_ip }}
     groups=created_nodes
     instance_name=node{{ item.index }}
-  with_items: "{{ nodes_ip }}"
+  with_items: "{{ all_nodes }}"

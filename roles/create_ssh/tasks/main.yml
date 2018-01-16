@@ -1,5 +1,5 @@
 
-- name: Generating bastion key for ec2-user
+- name: Generating bastion key for instance user
   user:
     name: "{{ instance_user }}"
     generate_ssh_key: yes
@@ -12,26 +12,16 @@
   remote_user: "{{ instance_user }}"
   register: "bastion_rsa_pub"
 
-- name: Install bastion pub key on master
+- name: Install bastion pub key on masters
   authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
-  delegate_to: "{{ master_public_ip }}"
+  delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
+  with_items:
+    - "{{ all_masters }}"
 
 - name: Install bastion pub key on nodes
   authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
-    - "{{nodes_ip}}"
-
-- name: Run ssh-keyscan to add master to known_hosts
-  local_action: shell ssh-keyscan {{ master_private_dns_name }} >> ~/.ssh/known_hosts
-  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
-  remote_user: "{{ instance_user }}"
-  
-- name: Run ssh-keyscan to add nodes to known_hosts
-  local_action: shell ssh-keyscan {{ item.private_dns_name }} >> ~/.ssh/known_hosts
-  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
-  remote_user: "{{ instance_user }}"
-  with_items:
-   - "{{nodes_ip}}" 
+    - "{{ all_nodes }}"

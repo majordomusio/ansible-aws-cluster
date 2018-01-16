@@ -5,24 +5,20 @@
   register: hosted_zones
 
 - name: Delete master and bastion routes
-  include: delete-route.yml zone="{{ namespace }}.local" record="{{item}}.{{ namespace }}.local" private_zone="true"
-  with_items:
-    - "master"
-
+  include: delete-route.yml zone="{{ namespace }}.local" record="master{{item}}.{{ namespace }}.local" private_zone="true"
+  with_sequence: start=1 end={{master_nodes|int}}
+  wait: yes
+  ignore_errors: true
+  
 - name: Delete node routes
   include: delete-route.yml zone="{{ namespace }}.local" record="node{{item}}.{{ namespace }}.local" private_zone="true"
   with_sequence: start=1 end={{app_nodes|int}}
+  wait: yes
   ignore_errors: true
   
 - name: Delete private DNS zone
   route53_zone:
-     zone: "{{namespace}}.local"
-     state: "absent"
-     vpc_region: "{{region}}"
-
-#- name: Delete Public Route
-#  include: delete-route.yml zone={{ public_dns_zone }} record={{ public_dns_zone }} private_zone="false"
-
-#- name: Delete Public Wildcard Route
-#  include: delete-route.yml zone={{ public_dns_zone }} record="*.{{public_subdomain_prefix}}.{{ public_dns_zone }}" private_zone="false"
-  
+    zone: "{{namespace}}.local"
+    state: "absent"
+    vpc_region: "{{region}}"
+  wait: yes

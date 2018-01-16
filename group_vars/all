@@ -13,15 +13,17 @@ public_subdomain_prefix: apps
 # See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
 
 bastion_instance_type: "t2.small"
-master_instance_type: "m4.xlarge"
+infra_instance_type: "m4.xlarge"
 node_instance_type: "m4.xlarge"
 
 bastion_spot_price: 0.05
-master_spot_price: 0.08
+infra_spot_price: 0.08
 node_spot_price: 0.08
 
 # Cluster size
-master_nodes: 1
+master_nodes: 2
+infra_nodes: 0
+lb_nodes: 0
 app_nodes: 2
 
 # Openshift configuration

@@ -14,7 +14,7 @@
     record: "master.{{namespace}}.local"
     type: A
     ttl: 300
-    value: "{{master_private_ip}}"
+    value: "{{ all_masters|map(attribute='private_ip')|join(',') }}"
     wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
@@ -33,7 +33,7 @@
     private_zone: true
     command: "create"
     overwrite: yes
-  with_items: "{{ nodes_ip }}"
+  with_items: "{{ all_nodes }}"
 
 - name: Add public master A record
   route53:
@@ -41,7 +41,7 @@
     record: "{{public_dns_zone}}"
     type: A
     ttl: 300
-    value: "{{master_public_ip}}"
+    value: "{{ all_masters|map(attribute='public_ip')|join(',') }}"
     wait: yes
     command: "create"
     overwrite: yes
@@ -52,7 +52,7 @@
     record: "*.{{public_subdomain_prefix}}.{{public_dns_zone}}"
     type: A
     ttl: 300
-    value: "{{master_public_ip}}"
+    value: "{{ all_masters|map(attribute='public_ip')|join(',') }}"
     wait: yes
     command: "create"
     overwrite: yes
