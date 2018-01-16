@@ -21,8 +21,8 @@ app_nodes: 2
 
 # Instance sizes
 bastion_ami_size: "t2.small"
-master_ami_size: "m4.large"
-node_ami_size: "m4.large"
+master_ami_size: "m5.xlarge"
+node_ami_size: "m5.xlarge"
 
 # Volume size
 master_root_volume_size: 50
