@@ -23,7 +23,7 @@
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='private_ip')|join(',') }}"
-    wait: yes
+#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -36,7 +36,7 @@
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
-    wait: yes
+#    wait: yes
     command: "create"
     overwrite: yes
 
@@ -47,7 +47,7 @@
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
-    wait: yes
+#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -61,7 +61,7 @@
     type: A
     ttl: 300
     value: "{{item.public_ip}}"
-    wait: yes
+#    wait: yes
     command: "create"
     overwrite: yes
   with_items: "{{ all_master_nodes }}"
@@ -70,14 +70,14 @@
 # Application nodes
 #
 
-- name: Add private node A records (e.g. node1.ocp.local)
+- name: Add private app node A records (e.g. app1.ocp.local)
   route53:
     zone: "{{namespace}}.local"
-    record: "node{{item.index}}.{{namespace}}.local"
+    record: "app{{item.index}}.{{namespace}}.local"
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
-    wait: yes
+#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -95,6 +95,6 @@
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
-    wait: yes
+#    wait: yes
     command: "create"
     overwrite: yes

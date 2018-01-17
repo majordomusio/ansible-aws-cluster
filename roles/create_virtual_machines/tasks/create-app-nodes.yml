@@ -20,9 +20,9 @@
         volume_type: gp2        
         delete_on_termination: true
     count_tag:
-      Name: "node{{item}}_{{namespace}}"
+      Name: "app{{item}}_{{namespace}}"
     instance_tags:
-      "{'Name':'node{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
+      "{'Name':'app{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
     exact_count: 1
     assign_public_ip: yes
   with_sequence: start=1 end={{app_nodes|int}}
@@ -30,7 +30,7 @@
   
 - name: Register node facts
   set_fact:
-    all_app_nodes: "{{ all_app_nodes|default([]) + [ {'index': item.item, 'cn': 'node' + item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'public_dns_name': item.tagged_instances[0].public_dns_name, 'private_dns_name': item.tagged_instances[0].private_dns_name} ] }}"
+    all_app_nodes: "{{ all_app_nodes|default([]) + [ {'index': item.item, 'cn': 'app' + item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'public_dns_name': item.tagged_instances[0].public_dns_name, 'private_dns_name': item.tagged_instances[0].private_dns_name} ] }}"
   with_items: "{{ ec2_nodes.results }}"
 
 - debug:

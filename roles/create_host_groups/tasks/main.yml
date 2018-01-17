@@ -1,12 +1,12 @@
 
-- name: Add masters to created_nodes group
+- name: Add master nodes to created_nodes group
   add_host:
     name={{ item.public_ip }}
     groups=created_nodes
     instance_name={{ item.cn }}
   with_items: "{{ all_master_nodes }}"
 
-- name: Add nodes to created_nodes group
+- name: Add app nodes to created_nodes group
   add_host:
     name={{ item.public_ip }}
     groups=created_nodes
@@ -15,4 +15,4 @@
 
 - debug:
   msg:
-    - "{{ all_app_nodes }}"
+    - "{{ created_nodes }}"

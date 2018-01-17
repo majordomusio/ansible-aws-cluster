@@ -9,7 +9,7 @@
   include: create-masters.yml
 
 - name: Provision app nodes
-  include: create-nodes.yml
+  include: create-app-nodes.yml
 
   
 - name: Wait for masters SSH to come up

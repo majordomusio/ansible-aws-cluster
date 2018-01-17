@@ -26,8 +26,8 @@
   wait: yes
   ignore_errors: true
 
-- name: Delete private node routes (e.g. node1.ocp.local)
-  include: delete-route.yml zone="{{ namespace }}.local" record="node{{item}}.{{ namespace }}.local" private_zone="true"
+- name: Delete private app node routes (e.g. app1.ocp.local)
+  include: delete-route.yml zone="{{ namespace }}.local" record="app{{item}}.{{ namespace }}.local" private_zone="true"
   with_sequence: start=1 end={{app_nodes|int}}
   wait: yes
   ignore_errors: true

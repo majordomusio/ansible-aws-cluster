@@ -7,7 +7,7 @@
     - role: create_security_groups
     - role: create_virtual_machines
     - role: create_dns
-#    - role: create_ssh
+    - role: create_ssh
     - role: create_host_groups
 
 - name: Update Nodes
@@ -15,8 +15,8 @@
   vars:
     state: 'present'
   roles:
-#    - update_virtual_machines
-#    - update_docker
+    - update_virtual_machines
+    - update_docker
   remote_user: "{{ instance_user }}"
 
 - name: Prepare Inventories
