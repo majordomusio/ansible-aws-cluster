@@ -4,13 +4,29 @@
     query: hosted_zone
   register: hosted_zones
 
-- name: Delete master and bastion routes
+- name: Delete private master route (e.g. master.ocp.local)
+  include: delete-route.yml zone="{{ namespace }}.local" record="master.{{ namespace }}.local" private_zone="true"
+  wait: yes
+  ignore_errors: true
+
+- name: Delete private master routes (e.g. master1.ocp.local)
   include: delete-route.yml zone="{{ namespace }}.local" record="master{{item}}.{{ namespace }}.local" private_zone="true"
   with_sequence: start=1 end={{master_nodes|int}}
   wait: yes
   ignore_errors: true
   
-- name: Delete node routes
+- name: Delete public master route (e.g. master.example.com)
+  include: delete-route.yml zone="{{ public_dns_zone }}" record="master.{{ public_dns_zone }}" private_zone="false"
+  wait: yes
+  ignore_errors: true
+
+- name: Delete public master routes (e.g. master1.example.com)
+  include: delete-route.yml zone="{{ public_dns_zone }}" record="master{{item}}.{{ public_dns_zone }}" private_zone="false"
+  with_sequence: start=1 end={{master_nodes|int}}
+  wait: yes
+  ignore_errors: true
+
+- name: Delete private node routes (e.g. node1.ocp.local)
   include: delete-route.yml zone="{{ namespace }}.local" record="node{{item}}.{{ namespace }}.local" private_zone="true"
   with_sequence: start=1 end={{app_nodes|int}}
   wait: yes

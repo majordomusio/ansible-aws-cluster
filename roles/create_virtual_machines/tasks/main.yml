@@ -10,12 +10,7 @@
 
 - name: Provision app nodes
   include: create-nodes.yml
-  
-#- name: Register VM facts
-#  set_fact:
-#   master_private_ip: "{{ ec2_master['tagged_instances'][0]['private_ip'] }}"
-#   master_public_ip: "{{ ec2_master['tagged_instances'][0]['public_ip'] }}"
-#   master_private_dns_name: "{{ec2_master['tagged_instances'][0]['private_dns_name'] }}"
+
   
 - name: Wait for masters SSH to come up
   wait_for:

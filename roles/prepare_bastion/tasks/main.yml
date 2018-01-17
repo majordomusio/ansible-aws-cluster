@@ -36,11 +36,3 @@
     version: "{{ openshift_branch }}"
   delegate_to: "{{ bastion_public_ip }}"
   remote_user: "{{ instance_user }}"
-
-- name: Copy script for OpenShift istallation
-  template:
-    src: "../files/install-openshift.sh"
-    dest: "~{{ instance_user }}/install-openshift.sh"
-    mode: "0775"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ instance_user }}"

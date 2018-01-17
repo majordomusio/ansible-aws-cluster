@@ -17,11 +17,11 @@ infra_instance_type: "m4.xlarge"
 node_instance_type: "m4.xlarge"
 
 bastion_spot_price: 0.05
-infra_spot_price: 0.08
-node_spot_price: 0.08
+infra_spot_price: 0.18
+node_spot_price: 0.18
 
 # Cluster size
-master_nodes: 2
+master_nodes: 1
 infra_nodes: 0
 lb_nodes: 0
 app_nodes: 2

@@ -3,12 +3,16 @@
   add_host:
     name={{ item.public_ip }}
     groups=created_nodes
-    instance_name=node{{ item.index }}
+    instance_name={{ item.cn }}
   with_items: "{{ all_masters }}"
 
 - name: Add nodes to created_nodes group
   add_host:
     name={{ item.public_ip }}
     groups=created_nodes
-    instance_name=node{{ item.index }}
+    instance_name={{ item.cn }}
   with_items: "{{ all_nodes }}"
+
+- debug:
+  msg:
+    - "{{ all_nodes }}"

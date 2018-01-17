@@ -1,4 +1,8 @@
 
+#
+# Create the private zone first
+#
+
 - name: Create DNS zone for openshift
   route53_zone:
      zone: "{{namespace}}.local"
@@ -8,7 +12,11 @@
      comment: "Internal zone for {{namespace}}"
   register: aws_zone
 
-- name: Add master A record 
+#
+# Masters
+#
+
+- name: Add private master A record (e.g. master.ocp.local)
   route53:
     zone: "{{namespace}}.local"
     record: "master.{{namespace}}.local"
@@ -21,7 +29,48 @@
     command: "create"
     overwrite: yes
 
-- name: Add node A records 
+- name: Add public master A record (e.g. master.example.com)
+  route53:
+    zone: "{{public_dns_zone}}"
+    record: "master.{{public_dns_zone}}"
+    type: A
+    ttl: 300
+    value: "{{ all_masters|map(attribute='public_ip')|join(',') }}"
+    wait: yes
+    command: "create"
+    overwrite: yes
+
+- name: Add private master A records (e.g. master1.ocp.local)
+  route53:
+    zone: "{{namespace}}.local"
+    record: "master{{item.index}}.{{namespace}}.local"
+    type: A
+    ttl: 300
+    value: "{{item.private_ip}}"
+    wait: yes
+    vpc_id: "{{vpc_id}}"
+    private_zone: true
+    command: "create"
+    overwrite: yes
+  with_items: "{{ all_masters }}"
+
+- name: Add public master A records (e.g. master1.example.com)
+  route53:
+    zone: "{{public_dns_zone}}"
+    record: "master{{item.index}}.{{public_dns_zone}}"
+    type: A
+    ttl: 300
+    value: "{{item.public_ip}}"
+    wait: yes
+    command: "create"
+    overwrite: yes
+  with_items: "{{ all_masters }}"
+
+#
+# Application nodes
+#
+
+- name: Add private node A records (e.g. node1.ocp.local)
   route53:
     zone: "{{namespace}}.local"
     record: "node{{item.index}}.{{namespace}}.local"
@@ -35,16 +84,9 @@
     overwrite: yes
   with_items: "{{ all_nodes }}"
 
-- name: Add public master A record
-  route53:
-    zone: "{{public_dns_zone}}"
-    record: "{{public_dns_zone}}"
-    type: A
-    ttl: 300
-    value: "{{ all_masters|map(attribute='public_ip')|join(',') }}"
-    wait: yes
-    command: "create"
-    overwrite: yes
+#
+# Other
+#
 
 - name: Add public wildcard dns
   route53:
