@@ -30,9 +30,9 @@
 
 - name: Register master node facts
   set_fact:
-    all_masters: "{{ all_masters|default([]) + [ {'index': item.item, 'cn': 'master' + item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'public_dns_name': item.tagged_instances[0].public_dns_name, 'private_dns_name': item.tagged_instances[0].private_dns_name} ] }}"
+    all_master_nodes: "{{ all_master_nodes|default([]) + [ {'index': item.item, 'cn': 'master' + item.item, 'public_ip': item.tagged_instances[0].public_ip, 'private_ip': item.tagged_instances[0].private_ip, 'public_dns_name': item.tagged_instances[0].public_dns_name, 'private_dns_name': item.tagged_instances[0].private_dns_name} ] }}"
   with_items: "{{ ec2_masters.results }}"
 
 - debug:
     msg:
-      - "{{ all_masters }}"
+      - "{{ all_master_nodes }}"

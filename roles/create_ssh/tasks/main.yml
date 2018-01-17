@@ -17,11 +17,11 @@
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
-    - "{{ all_masters }}"
+    - "{{ all_master_nodes }}"
 
 - name: Install bastion pub key on nodes
   authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
-    - "{{ all_nodes }}"
+    - "{{ all_app_nodes }}"
