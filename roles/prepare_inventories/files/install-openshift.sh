@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-INVENTORY="$1"
-if [ $INVENTORY == "" ]; then
+INVENTORY=$1
+if [ "$INVENTORY" == "" ]; then
   INVENTORY="single_master_inventory.cfg"
 fi
 
