@@ -7,11 +7,26 @@ all:
     # AWS access key
     aws_access_key: AKI...
     aws_secret_key: 7te...
+
+    # The AWS region to deploy to
+    region: eu-west-1
+
     # AWS keyname and local keyfile location
     key_name: openshift
     ansible_ssh_private_key_file: ~/.ssh/openshift.pem
-    # The AWS region to deploy to
-    region: eu-west-1
+
+    # Cluster size
+    master_nodes: 1
+    infra_nodes: 0
+    app_nodes: 1
+
     # Instance configuration
     namespace: openshift
-    # Other
+    bastion_spot_price: 0.05
+    infra_node_spot_price: 0.09
+    app_node_spot_price: 0.09
+    
+    # Public DNS zone setup
+    public_dns_zone: example.com
+    public_subdomain_prefix: apps    
+    

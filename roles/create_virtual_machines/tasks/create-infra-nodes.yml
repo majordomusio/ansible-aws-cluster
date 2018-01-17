@@ -4,7 +4,7 @@
     instance_type: "{{infra_instance_type}}"
     image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
-    spot_price: "{{ infra_spot_price }}"
+    spot_price: "{{ infra_node_spot_price }}"
     spot_wait_timeout: 300
     wait: true
     key_name: "{{key_name}}"
@@ -32,7 +32,7 @@
     instance_type: "{{infra_instance_type}}"
     image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{region}}"
-    spot_price: "{{ infra_spot_price }}"
+    spot_price: "{{ infra_node_spot_price }}"
     spot_wait_timeout: 300
     wait: true
     key_name: "{{key_name}}"

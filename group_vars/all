@@ -1,40 +1,27 @@
 
 # See https://wiki.centos.org/Cloud/AWS for a list of official CentOS 7 Public Images
 
+# AMI used to build the openshift ami from
 ami_id: ami-0d063c6b
-
 # Sudo user for the image
 instance_user: centos
 
-# Public DNS zone setup
-public_dns_zone: banga.mx
-public_subdomain_prefix: apps
-
-# See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
-
+# Instance types use for the different roles
 bastion_instance_type: "t2.small"
 infra_instance_type: "m4.xlarge"
-node_instance_type: "m4.xlarge"
+app_instance_type: "m4.xlarge"
 
-bastion_spot_price: 0.05
-infra_spot_price: 0.18
-node_spot_price: 0.18
-
-# Cluster size
-master_nodes: 3
-infra_nodes: 2
-app_nodes: 2
+# See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
 
 # Openshift configuration
 openshift_branch: "release-3.7"
 deployment_type: "origin"
 
-# Whether to install metrics
-install_metrics: false
-# Whether to install prometheus
-install_prometheus: false
-# Whether to install logging
-install_logging: false
+# The following options are installed by default (since 3.7) and can be disabled
+disable_metrics: true
+disbale_prometheus: true
+disable_logging: true
+disable_service_catalog: true
 
 # ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
 
