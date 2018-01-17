@@ -19,9 +19,23 @@
   with_items:
     - "{{ all_master_nodes }}"
 
-- name: Install bastion pub key on nodes
+- name: Install bastion pub key on app nodes
   authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ item.public_ip }}"
   remote_user: "{{ instance_user }}"
   with_items:
     - "{{ all_app_nodes }}"
+
+- name: Install bastion pub key on infra nodes
+  authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
+  delegate_to: "{{ item.public_ip }}"
+  remote_user: "{{ instance_user }}"
+  with_items:
+    - "{{ all_infra_nodes }}"
+  when: infra_nodes > 0
+
+- name: Install bastion pub key on router
+  authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
+  delegate_to: "{{ router_public_ip }}"
+  remote_user: "{{ instance_user }}"
+  when: infra_nodes > 0

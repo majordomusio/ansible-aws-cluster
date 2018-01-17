@@ -37,6 +37,13 @@
   wait: yes
   ignore_errors: true
   
+- name: Delete private infra node routes (e.g. app1.ocp.local)
+  include: delete-route.yml zone="{{ namespace }}.local" record="infra{{item}}.{{ namespace }}.local" private_zone="true"
+  with_sequence: start=1 end={{infra_nodes|int}}
+  wait: yes
+  ignore_errors: true
+  when: infra_nodes > 0
+  
 - name: Delete private DNS zone
   route53_zone:
     zone: "{{namespace}}.local"

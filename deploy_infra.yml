@@ -11,7 +11,7 @@
     - role: create_host_groups
 
 - name: Update Nodes
-  hosts: created_nodes
+  hosts: created_instances
   vars:
     state: 'present'
   roles:

@@ -21,9 +21,8 @@ infra_spot_price: 0.18
 node_spot_price: 0.18
 
 # Cluster size
-master_nodes: 1
-infra_nodes: 0
-lb_nodes: 0
+master_nodes: 3
+infra_nodes: 2
 app_nodes: 2
 
 # Openshift configuration

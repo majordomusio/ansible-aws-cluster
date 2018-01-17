@@ -85,10 +85,29 @@
   with_items: "{{ all_app_nodes }}"
 
 #
+# Application nodes
+#
+
+- name: Add private infra node A records (e.g. infra1.ocp.local)
+  route53:
+    zone: "{{namespace}}.local"
+    record: "infra{{item.index}}.{{namespace}}.local"
+    type: A
+    ttl: 300
+    value: "{{item.private_ip}}"
+#    wait: yes
+    vpc_id: "{{vpc_id}}"
+    private_zone: true
+    command: "create"
+    overwrite: yes
+  with_items: "{{ all_infra_nodes }}"
+  when: infra_nodes > 0
+
+#
 # Other
 #
 
-- name: Add public wildcard dns
+- name: Add public wildcard dns, mapped to masters
   route53:
     zone: "{{public_dns_zone}}"
     record: "*.{{public_subdomain_prefix}}.{{public_dns_zone}}"
@@ -98,3 +117,16 @@
 #    wait: yes
     command: "create"
     overwrite: yes
+  when: infra_nodes == 0
+
+- name: Add public wildcard dns, mapped to load balancer
+  route53:
+    zone: "{{public_dns_zone}}"
+    record: "*.{{public_subdomain_prefix}}.{{public_dns_zone}}"
+    type: A
+    ttl: 300
+    value: "{{ router_public_ip }}"
+#    wait: yes
+    command: "create"
+    overwrite: yes
+  when: infra_nodes > 0
