@@ -40,3 +40,4 @@
     state: started
   with_items:
     - "{{ all_infra_nodes }}"
+  when: infra_nodes > 0
