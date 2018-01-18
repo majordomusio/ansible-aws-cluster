@@ -1,8 +1,10 @@
 
 - name: Find AMI
   ec2_ami_find:
-     ami_id: "{{ami_id}}"
-     region: "{{region}}"
+    owner: self
+    ami_tags:
+      Name: "{{ ami_name }}"
+    region: "{{region}}"
   register: "ami_find"
 
 - name: Provision masters
