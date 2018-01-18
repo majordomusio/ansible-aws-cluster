@@ -1,5 +1,13 @@
 
-- name: Copy scripts for OpenShift istallation
+- name: Copy ansible.cfg
+  template:
+    src: "../files/ansible.cfg"
+    dest: "~{{ instance_user }}/ansible.cfg"
+    mode: "0775"
+  delegate_to: "bastion.{{ namespace }}.{{ public_dns_zone }}"
+  remote_user: "{{ instance_user }}"
+
+- name: Copy scripts for OpenShift installation
   template:
     src: "../files/install-openshift.sh"
     dest: "~{{ instance_user }}/install-openshift.sh"

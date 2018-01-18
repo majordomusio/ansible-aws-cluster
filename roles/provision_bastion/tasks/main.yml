@@ -15,11 +15,13 @@
     name:
       - "git"
       - "@Development Tools"
+      - "java-1.8.0-openjdk"
       - "openssl-devel"
       - "python-devel"
       - "gcc"
       - "libffi-devel"
       - "ansible"
+      - "certbot"
     state: "present"
   delegate_to: "{{ bastion_public_ip }}"
   remote_user: "{{ instance_user }}"
