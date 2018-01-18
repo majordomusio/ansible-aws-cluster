@@ -23,10 +23,10 @@
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='private_ip')|join(',') }}"
-#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
+#    wait: yes
     overwrite: yes
 
 - name: Add public master A record (e.g. master.example.com)
@@ -36,7 +36,6 @@
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
-#    wait: yes
     command: "create"
     overwrite: yes
 
@@ -47,7 +46,6 @@
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
-#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -61,7 +59,6 @@
     type: A
     ttl: 300
     value: "{{item.public_ip}}"
-#    wait: yes
     command: "create"
     overwrite: yes
   with_items: "{{ all_master_nodes }}"
@@ -77,7 +74,6 @@
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
-#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -85,7 +81,7 @@
   with_items: "{{ all_app_nodes }}"
 
 #
-# Application nodes
+# Infra nodes
 #
 
 - name: Add private infra node A records (e.g. infra1.ocp.local)
@@ -95,7 +91,6 @@
     type: A
     ttl: 300
     value: "{{item.private_ip}}"
-#    wait: yes
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
@@ -104,29 +99,31 @@
   when: infra_nodes > 0
 
 #
-# Other
+# Ingress point for apps running on the cluster
 #
 
-- name: Add public wildcard dns, mapped to masters
+- name: Add public wildcard A record, mapped to masters
   route53:
     zone: "{{public_dns_zone}}"
     record: "*.{{public_subdomain_prefix}}.{{public_dns_zone}}"
     type: A
     ttl: 300
     value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
-#    wait: yes
     command: "create"
     overwrite: yes
+    wait: yes
   when: infra_nodes == 0
 
-- name: Add public wildcard dns, mapped to load balancer
+- name: Add public wildcard A record, mapped to infra nodes
   route53:
     zone: "{{public_dns_zone}}"
     record: "*.{{public_subdomain_prefix}}.{{public_dns_zone}}"
     type: A
     ttl: 300
-    value: "{{ router_public_ip }}"
-#    wait: yes
+    value: "{{ all_infra_nodes|map(attribute='public_ip')|join(',') }}"
     command: "create"
     overwrite: yes
+    wait: yes
   when: infra_nodes > 0
+
+# Keep the 'wait' attribute on the last DNS operation to give Route53 some time to replicate all updated setting before we move on.
