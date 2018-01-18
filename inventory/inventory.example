@@ -22,9 +22,9 @@ all:
 
     # Instance configuration
     namespace: openshift
-    bastion_spot_price: 0.05
-    infra_node_spot_price: 0.09
-    app_node_spot_price: 0.09
+    bastion_spot_price: 0.04
+    infra_node_spot_price: 0.10
+    app_node_spot_price: 0.10
     
     # Public DNS zone setup
     public_dns_zone: example.com
