@@ -20,12 +20,6 @@ app_instance_type: "m4.xlarge"
 openshift_branch: "release-3.7"
 deployment_type: "origin"
 
-# The following options are installed by default (since 3.7) and can be disabled
-disable_metrics: true
-disbale_prometheus: true
-disable_logging: true
-disable_service_catalog: true
-
 # ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
 
 # Volume size
