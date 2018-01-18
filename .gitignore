@@ -13,6 +13,10 @@ tmp/
 # Vagrant
 .vagrant/
 
+# Tests
+test.*
+**/test/**
+
 # MacOS
 .DS_Store
 stuff.md

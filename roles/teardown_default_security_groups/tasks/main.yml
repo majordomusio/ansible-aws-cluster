@@ -5,8 +5,8 @@
     region: "{{region}}"
     state: "absent"
 
-- name: Delete bastion security group
+- name: Delete SSH security group
   ec2_group:
-    name: "{{namespace}}_bastion"
+    name: "{{namespace}}_default"
     region: "{{region}}"
     state: "absent"

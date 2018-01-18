@@ -19,9 +19,9 @@
         group_name: "{{namespace}}_vpc"
 
 # Security group which allows SSH access to bastion and all egress.
-- name: Create bastion security group
+- name: Create SSH security group
   ec2_group:
-    name: "{{namespace}}_bastion"
+    name: "{{namespace}}_default"
     description: "Default security group that allows access to bastion and all egress."
     vpc_id: "{{vpc_id}}"
     region: "{{region}}"

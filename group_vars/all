@@ -6,6 +6,9 @@ ami_id: ami-0d063c6b
 # Sudo user for the image
 instance_user: centos
 
+# The name and tag for the base ami
+ami_name: ami_ocp_base
+
 # Instance types use for the different roles
 bastion_instance_type: "t2.small"
 infra_instance_type: "m4.xlarge"
