@@ -1,5 +1,5 @@
 
-- name: Prepare Infrastructure
+- name: Prepare infrastructure
   hosts: localhost
   gather_facts: false
   roles:
@@ -10,7 +10,7 @@
     - role: create_ssh
     - role: create_host_groups
 
-- name: Update Nodes
+- name: Update nodes
   hosts: created_instances
   vars:
     state: 'present'
@@ -19,7 +19,7 @@
     - update_docker
   remote_user: "{{ instance_user }}"
 
-- name: Prepare Inventories
+- name: Prepare inventories
   hosts: localhost
   roles:
     - role: prepare_inventories

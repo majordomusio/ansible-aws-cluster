@@ -1,5 +1,5 @@
 
-- name: Teardown Infrastructure
+- name: Teardown infrastructure
   hosts: localhost
   roles:
   - role: teardown_virtual_machines
