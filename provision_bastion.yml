@@ -5,5 +5,4 @@
   roles:
     - role: create_vpc
     - role: create_default_security_groups
-    - role: create_bastion
-    - role: prepare_bastion
+    - role: provision_bastion

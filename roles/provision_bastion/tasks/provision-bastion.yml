@@ -2,7 +2,7 @@
 - name: Provision bastion
   ec2:
     instance_type: "{{ bastion_instance_type }}"
-    image:  "{{ ami_id }}"
+    image:  "{{ami_find['results'][0]['ami_id']}}"
     region: "{{ region }}"
     spot_price: "{{ bastion_spot_price }}"
     spot_wait_timeout: 300

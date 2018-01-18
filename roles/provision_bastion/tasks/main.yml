@@ -1,18 +1,14 @@
 
-- name: Upgrade packages on bastion
-  yum: name=* state=latest
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ instance_user }}"
-  become: true
-
-- name: Install EPEL
-  yum:
-    name:
-      - "epel-release"
-    state: "present"
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ instance_user }}"
-  become: true
+- name: Find AMI
+  ec2_ami_find:
+    owner: self
+    ami_tags:
+      Name: "{{ ami_name }}"
+    region: "{{region}}"
+  register: "ami_find"
+  
+- name: Provision bastion host
+  include: provision-bastion.yml
 
 - name: Install additional packages on bastion
   yum:
