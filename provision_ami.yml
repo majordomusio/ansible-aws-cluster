@@ -11,8 +11,3 @@
   roles:
     - role: build_base_ami
 
-- name: Teardown AMI and infrastructure
-  hosts: localhost
-  roles:
-  - role: teardown_default_security_groups
-  - role: teardown_vpc
