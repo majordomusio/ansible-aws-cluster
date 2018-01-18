@@ -7,14 +7,11 @@
     region: "{{region}}"
   register: "ami_find"
 
-- name: Provision masters
-  include: create-masters.yml
+- include_tasks: create-masters.yml
 
-- name: Provision app nodes
-  include: create-app-nodes.yml
+- include_tasks: create-app-nodes.yml
 
-- name: Provision infra nodes
-  include: create-infra-nodes.yml
+- include_tasks: create-infra-nodes.yml
   when: infra_nodes > 0
 
 - name: Wait for masters SSH to come up

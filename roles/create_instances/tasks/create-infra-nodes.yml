@@ -25,7 +25,7 @@
       "{'Name':'infra{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
     exact_count: 1
     assign_public_ip: yes
-  with_sequence: start=1 end={{infra_nodes|int}}
+  with_sequence: start=0 end={{infra_nodes|int}}
   register: ec2_infras
 
 - name: Register infra node facts
