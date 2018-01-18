@@ -1,5 +1,5 @@
 
-- name: Prepare AMI and Infrastructure 
+- name: Prepare AMI and infrastructure 
   hosts: localhost
   gather_facts: false
   roles:
@@ -11,7 +11,7 @@
   roles:
     - role: build_base_ami
 
-- name: Teardown AMI and Infrastructure
+- name: Teardown AMI and infrastructure
   hosts: localhost
   roles:
   - role: teardown_default_security_groups

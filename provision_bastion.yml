@@ -1,5 +1,5 @@
 
-- name: Prepare Infrastructure and bastion host
+- name: Prepare infrastructure and bastion host
   hosts: localhost
   gather_facts: false
   roles:
