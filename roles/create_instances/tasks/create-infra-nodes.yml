@@ -1,4 +1,8 @@
 
+- name: Effective number of infra nodes
+  set_fact:
+   num_of_infra_nodes: "{{ infra_nodes + 1 }}"
+
 - name: Provision infra nodes
   ec2:
     instance_type: "{{infra_instance_type}}"
@@ -25,7 +29,7 @@
       "{'Name':'infra{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
     exact_count: 1
     assign_public_ip: yes
-  with_sequence: start=0 end={{infra_nodes|int}}
+  with_sequence: start=1 end={{num_of_infra_nodes|int}}
   register: ec2_infras
 
 - name: Register infra node facts
