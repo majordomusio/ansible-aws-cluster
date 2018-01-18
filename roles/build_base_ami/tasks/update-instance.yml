@@ -1,0 +1,49 @@
+
+- name: Upgrade packages
+  yum: name=* state=latest
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"
+  become: true
+
+- name: Install EPEL
+  yum:
+    name:
+      - "epel-release"
+    state: "present"
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"
+  become: true
+
+- name: Install essential packages
+  yum:
+    name:
+      - "wget"
+      - "git"
+      - "net-tools"
+      - "ntp"
+      - "bind-utils"
+      - "iptables-services"
+      - "bridge-utils"
+      - "bash-completion"
+      - "kexec-tools"
+      - "sos"
+      - "psacct"
+      - "docker"
+#      - "docker-1.12.6"
+      - "NetworkManager"
+    state: "present"
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"
+  become: true
+
+#
+# see 
+# https://github.com/openshift/openshift-ansible/issues/5236 
+# and
+# https://github.com/openshift/openshift-ansible/issues/4950 
+#
+- name: Enable NetworkManager
+  shell: "systemctl enable NetworkManager && systemctl restart NetworkManager"
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"  
+  become: true
