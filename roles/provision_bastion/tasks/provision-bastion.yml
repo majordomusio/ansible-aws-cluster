@@ -11,8 +11,13 @@
     vpc_subnet_id: "{{ subnet_facts['subnet']['id'] }}"
     group: ['{{ namespace }}_vpc', '{{ namespace }}_default']
     volumes:
-      - device_name: /dev/sda1
-        volume_size: '{{ bastion_root_volume_size }}'
+      - device_name: "{{ami_find['results'][0]['root_device_name']}}" 
+        volume_size: "{{root_volume_size}}"
+        volume_type: gp2        
+        delete_on_termination: true
+      - device_name: "/dev/xvdb"
+        volume_size: "{{docker_volume_size}}"
+        volume_type: gp2        
         delete_on_termination: true
     count_tag:
       Name: "bastion_{{ namespace }}"
@@ -28,6 +33,14 @@
   set_fact:
    bastion_private_ip: "{{ ec2_bastion['tagged_instances'][0]['private_ip'] }}"
    bastion_public_ip: "{{ ec2_bastion['tagged_instances'][0]['public_ip'] }}"
+
+- name: Add router to created_instances group
+  add_host:
+    name={{ item.ip }}
+    groups=created_instances
+    instance_name={{ item.name }}
+  with_items:
+    - { name: 'bastion', ip: '{{bastion_public_ip}}' }
 
 - name: Add public bastion A record
   route53:

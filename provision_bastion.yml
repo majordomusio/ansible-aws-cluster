@@ -6,3 +6,11 @@
     - role: create_vpc
     - role: create_default_security_groups
     - role: provision_bastion
+
+- name: Update instance
+  hosts: created_instances
+  vars:
+    state: 'present'
+  roles:
+    - configure_docker
+  remote_user: "{{ instance_user }}"

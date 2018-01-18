@@ -5,18 +5,17 @@
   roles:
     - role: create_vpc
     - role: create_security_groups
-    - role: create_virtual_machines
+    - role: create_instances
     - role: create_dns
     - role: create_ssh
     - role: create_host_groups
 
-- name: Update nodes
+- name: Update instance
   hosts: created_instances
   vars:
     state: 'present'
   roles:
-    - update_virtual_machines
-    - update_docker
+    - configure_docker
   remote_user: "{{ instance_user }}"
 
 - name: Prepare inventories
