@@ -28,6 +28,11 @@
         from_port: "8443"
         to_port: "8443"
         cidr_ip: "0.0.0.0/0"
+      # Cockpit
+      - proto: "tcp"
+        from_port: "9090"
+        to_port: "9090"
+        cidr_ip: "0.0.0.0/0"
     rules_egress: []    
  
 #  This security group allows public ingress to the instances for HTTP, HTTPS and common HTTP/S proxy ports.
