@@ -1,8 +1,14 @@
 
+- name: Fake number of infra nodes
+  set_fact:
+    num_of_infra_nodes: 1
+  when: infra_nodes == 0
+
 - name: Effective number of infra nodes
   set_fact:
-   num_of_infra_nodes: "{{ infra_nodes + 1 }}"
-
+    num_of_infra_nodes: "{{ infra_nodes }}"
+  when: infra_nodes > 0
+  
 - name: Provision infra nodes
   ec2:
     instance_type: "{{infra_instance_type}}"
