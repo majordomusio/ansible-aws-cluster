@@ -35,7 +35,7 @@
     record: "master.{{public_dns_zone}}"
     type: A
     ttl: 300
-    value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
+    value: "{{ router_public_ip }}"
     command: "create"
     overwrite: yes
 
@@ -52,16 +52,16 @@
     overwrite: yes
   with_items: "{{ all_master_nodes }}"
 
-- name: Add public master A records (e.g. master1.example.com)
-  route53:
-    zone: "{{public_dns_zone}}"
-    record: "master{{item.index}}.{{public_dns_zone}}"
-    type: A
-    ttl: 300
-    value: "{{item.public_ip}}"
-    command: "create"
-    overwrite: yes
-  with_items: "{{ all_master_nodes }}"
+#- name: Add public master A records (e.g. master1.example.com)
+#  route53:
+#    zone: "{{public_dns_zone}}"
+#    record: "master{{item.index}}.{{public_dns_zone}}"
+#    type: A
+#    ttl: 300
+#    value: "{{item.public_ip}}"
+#    command: "create"
+#    overwrite: yes
+#  with_items: "{{ all_master_nodes }}"
 
 #
 # Application nodes
