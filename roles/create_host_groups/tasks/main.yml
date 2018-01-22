@@ -28,3 +28,4 @@
     instance_name={{ item.name }}
   with_items:
     - { name: 'router', ip: '{{router_public_ip}}' }
+  when: master_nodes > 1

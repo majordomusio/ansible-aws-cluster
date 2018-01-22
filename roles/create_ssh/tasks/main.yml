@@ -38,4 +38,4 @@
   authorized_key: user="{{ instance_user }}" key="{{ bastion_rsa_pub.stdout }}"
   delegate_to: "{{ router_public_ip }}"
   remote_user: "{{ instance_user }}"
-  when: infra_nodes > 0
+  when: master_nodes > 1

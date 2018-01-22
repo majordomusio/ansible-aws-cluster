@@ -10,7 +10,7 @@ instance_user: centos
 ami_name: ami_ocp_base
 
 # Instance types use for the different roles
-bastion_instance_type: "m4.xlarge"
+bastion_instance_type: "t2.medium"
 infra_instance_type: "m4.xlarge"
 app_instance_type: "m4.xlarge"
 
