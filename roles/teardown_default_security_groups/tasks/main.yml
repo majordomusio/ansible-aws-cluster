@@ -10,3 +10,9 @@
     name: "{{namespace}}_default"
     region: "{{region}}"
     state: "absent"
+
+- name: Delete ingress security group
+  ec2_group:
+    name: "{{namespace}}_default_ingress"
+    region: "{{region}}"
+    state: "absent"
