@@ -22,7 +22,7 @@
     count_tag:
       Name: "master{{item}}_{{namespace}}"
     instance_tags:
-      "{'Name':'master{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
+      "{'Name':'master{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'master','group':'cluster'}"
     exact_count: 1
     assign_public_ip: yes
   with_sequence: start=1 end={{master_nodes|int}}

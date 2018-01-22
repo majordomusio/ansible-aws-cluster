@@ -5,7 +5,8 @@
   ec2_remote_facts:
     region: "{{ region }}"
     filters:
-      "tag:role": "{{namespace}}_bastion"
+      "tag:namespace": "{{ namespace }}"
+      "tag:role": "bastion"
   register: ec2_facts
 
 - name: Terminate EC2 VMs

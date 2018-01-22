@@ -32,7 +32,7 @@
     count_tag:
       Name: "infra{{item}}_{{namespace}}"
     instance_tags:
-      "{'Name':'infra{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
+      "{'Name':'infra{{item}}_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'infra','group':'cluster'}"
     exact_count: 1
     assign_public_ip: yes
   with_sequence: start=1 end={{num_of_infra_nodes|int}}
@@ -66,7 +66,7 @@
     count_tag:
       Name: "router_{{namespace}}"
     instance_tags:
-      "{'Name':'router_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'{{namespace}}_infra'}"
+      "{'Name':'router_{{namespace}}','namespace':'{{namespace}}','kubernetes.io/cluster/{{namespace}}':'{{namespace}}','role':'router','group':'cluster'}"
     exact_count: 1
     assign_public_ip: yes
   register: ec2_router

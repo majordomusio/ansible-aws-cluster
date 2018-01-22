@@ -26,8 +26,18 @@
     vpc_id: "{{vpc_id}}"
     private_zone: true
     command: "create"
-#    wait: yes
     overwrite: yes
+
+- name: Add public master A record (e.g. master.ocp.example.com)
+  route53:
+    zone: "{{public_dns_zone}}"
+    record: "master.{{namespace}}.{{public_dns_zone}}"
+    type: A
+    ttl: 300
+    value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
+    command: "create"
+    overwrite: yes
+  when: infra_nodes == 0
 
 - name: Add public master A record (e.g. master.ocp.example.com)
   route53:
@@ -38,6 +48,7 @@
     value: "{{ router_public_ip }}"
     command: "create"
     overwrite: yes
+  when: infra_nodes > 0
 
 - name: Add private master A records (e.g. master1.ocp.local)
   route53:
