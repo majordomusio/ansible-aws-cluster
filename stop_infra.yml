@@ -1,0 +1,5 @@
+
+- name: Stop infrastructure
+  hosts: localhost
+  roles:
+  - role: stop_instances
