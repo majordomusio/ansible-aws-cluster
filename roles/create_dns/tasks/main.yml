@@ -37,7 +37,7 @@
     value: "{{ all_master_nodes|map(attribute='public_ip')|join(',') }}"
     command: "create"
     overwrite: yes
-  when: infra_nodes == 0
+  when: master_nodes == 1
 
 - name: Add public master A record (e.g. master.ocp.example.com)
   route53:
@@ -48,7 +48,7 @@
     value: "{{ router_public_ip }}"
     command: "create"
     overwrite: yes
-  when: infra_nodes > 0
+  when: master_nodes > 1
 
 - name: Add private master A records (e.g. master1.ocp.local)
   route53:

@@ -1,0 +1,32 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_python_interpreter: python
+  vars:
+    # AWS access key
+    aws_access_key: AKI...
+    aws_secret_key: 7te...
+
+    # The AWS region to deploy to
+    region: eu-west-1
+
+    # AWS keyname and local keyfile location
+    key_name: openshift
+    ansible_ssh_private_key_file: ~/.ssh/openshift.pem
+
+    # Cluster size
+    master_nodes: 3
+    infra_nodes: 2
+    app_nodes: 4
+
+    # Instance configuration
+    namespace: openshift
+    bastion_spot_price: 0.04
+    infra_node_spot_price: 0.10
+    app_node_spot_price: 0.10
+    
+    # Public DNS zone setup
+    public_dns_zone: example.com
+    public_subdomain_prefix: apps    
+    
