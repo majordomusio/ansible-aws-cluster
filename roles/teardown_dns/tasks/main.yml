@@ -15,21 +15,15 @@
   wait: yes
   ignore_errors: true
   
-- name: Delete public wildcard route (e.g. *.apps.example.com)
-  include: delete-route.yml zone="{{ public_dns_zone }}" record="*.{{ public_subdomain_prefix }}.{{ public_dns_zone }}" private_zone="false"
+- name: Delete public wildcard route (e.g. *.apps.ocp.example.com)
+  include: delete-route.yml zone="{{ public_dns_zone }}" record="*.{{ public_subdomain_prefix }}.{{ namespace }}.{{ public_dns_zone }}" private_zone="false"
   wait: yes
   ignore_errors: true
 
-- name: Delete public master route (e.g. master.example.com)
-  include: delete-route.yml zone="{{ public_dns_zone }}" record="master.{{ public_dns_zone }}" private_zone="false"
+- name: Delete public master route (e.g. master.ocp.example.com)
+  include: delete-route.yml zone="{{ public_dns_zone }}" record="master.{{ namespace }}.{{ public_dns_zone }}" private_zone="false"
   wait: yes
   ignore_errors: true
-
-#- name: Delete public master routes (e.g. master1.example.com)
-#  include: delete-route.yml zone="{{ public_dns_zone }}" record="master{{item}}.{{ public_dns_zone }}" private_zone="false"
-#  with_sequence: start=1 end={{master_nodes|int}}
-#  wait: yes
-#  ignore_errors: true
 
 - name: Delete private app node routes (e.g. app1.ocp.local)
   include: delete-route.yml zone="{{ namespace }}.local" record="app{{item}}.{{ namespace }}.local" private_zone="true"
