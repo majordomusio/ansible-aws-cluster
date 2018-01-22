@@ -23,7 +23,7 @@ deployment_type: "origin"
 # ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
 
 # Volume size
-root_volume_size: 50
+root_volume_size: 20
 docker_volume_size: 50
 
 # Networking
