@@ -9,18 +9,22 @@ instance_user: centos
 # The name and tag for the base ami
 ami_name: ami_ocp_base
 
+#
 # Instance types use for the different roles
+#
+# See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
+#
 bastion_instance_type: "t2.medium"
 infra_instance_type: "m4.xlarge"
 app_instance_type: "m4.xlarge"
 
-# See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
+#
+# ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
+#
 
-# Openshift configuration
+# OpenShift version
 openshift_branch: "release-3.7"
 deployment_type: "origin"
-
-# ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING
 
 # Volume size
 root_volume_size: 50

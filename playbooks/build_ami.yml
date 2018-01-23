@@ -3,11 +3,11 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - role: create_vpc
-    - role: create_default_security_groups
+    - role: ../roles/create_vpc
+    - role: ../roles/create_default_security_groups
   
 - name: Build AMI
   hosts: localhost
   roles:
-    - role: build_base_ami
+    - role: ../roles/build_base_ami
 

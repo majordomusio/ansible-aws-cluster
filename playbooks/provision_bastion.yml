@@ -3,14 +3,14 @@
   hosts: localhost
   gather_facts: false
   roles:
-    - role: create_vpc
-    - role: create_default_security_groups
-    - role: provision_bastion
+    - role: ../roles/create_vpc
+    - role: ../roles/create_default_security_groups
+    - role: ../roles/provision_bastion
 
 - name: Update instance
   hosts: created_instances
   vars:
     state: 'present'
   roles:
-    - configure_docker
+    - ../roles/configure_docker
   remote_user: "{{ instance_user }}"

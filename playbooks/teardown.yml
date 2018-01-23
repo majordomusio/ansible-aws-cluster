@@ -1,0 +1,7 @@
+
+- name: Teardown infrastructure
+  hosts: localhost
+  roles:
+  - role: ../roles/teardown_instances
+  - role: ../roles/teardown_security_groups
+  - role: ../roles/teardown_dns

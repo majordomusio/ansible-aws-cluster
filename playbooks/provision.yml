@@ -1,0 +1,24 @@
+
+- name: Prepare infrastructure
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - role: ../roles/create_vpc
+    - role: ../roles/create_security_groups
+    - role: ../roles/create_instances
+    - role: ../roles/create_dns
+    - role: ../roles/create_ssh
+    - role: ../roles/create_host_groups
+
+- name: Update instance
+  hosts: created_instances
+  vars:
+    state: 'present'
+  roles:
+    - ../roles/configure_docker
+  remote_user: "{{ instance_user }}"
+
+- name: Prepare inventories
+  hosts: localhost
+  roles:
+    - role: ../roles/prepare_inventories

@@ -1,0 +1,7 @@
+
+- name: Teardown bastion host
+  hosts: localhost
+  roles:
+  - role: ../roles/teardown_bastion
+  - role: ../roles/teardown_default_security_groups
+  - role: ../roles/teardown_vpc
