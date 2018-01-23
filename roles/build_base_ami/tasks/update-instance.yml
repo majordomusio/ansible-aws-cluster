@@ -30,8 +30,10 @@
       - "psacct"
       - "docker-1.12.6"
       - "NetworkManager"
-      # See: https://github.com/openshift/openshift-ansible/issues/4282
+      # Needed for metrics, see: https://github.com/openshift/openshift-ansible/issues/4282
       - "python-passlib"
+      # Also needed for metrics:
+      - "httpd-tools"
     state: "present"
   delegate_to: "{{ base_public_ip }}"
   remote_user: "{{ instance_user }}"
