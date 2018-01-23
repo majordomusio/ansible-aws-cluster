@@ -6,6 +6,7 @@ tmp/
 
 # Make sure NO inventory file gets checked in EVER. It may contain secret keys etc !!
 **/inventory/inventory*
+**/inventory/**
 
 # Ansible
 **/*.retry
