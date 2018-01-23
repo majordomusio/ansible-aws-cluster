@@ -1,6 +1,7 @@
 
 - name: Teardown bastion host
   hosts: localhost
+  gather_facts: false
   roles:
   - role: ../roles/teardown_bastion
   - role: ../roles/teardown_default_security_groups
