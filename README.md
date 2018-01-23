@@ -12,15 +12,17 @@ The following cluster types are supported:
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
 * Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
 
-The playbooks will create all of the AWS infrastructure to support above cluster types as well as the OpenShift clsuter itself.
+The playbooks will create all of the AWS infrastructure to support above cluster types and install the OpenShift cluster itself.
 
 ### Where do I start?
 
 In order to provision a cluster, a couple of items have to be in place:
 
 1) AWS account credentials must be present (aws_access_key, aws_secret_key)
-2) Create a SSH key file (in the AWS console), and place the public key in e.g. `~/.ssh`.
-3) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
+2) In order to route traffic to the cluster, you need a public zone file and doamin configured in `Route53`.
+3) Create a SSH key file (in the AWS console), and place the public key in e.g. `~/.ssh`.
+4) Prepare your `inventory file` by making a copy of e.g. `inventory/inventory_small.example`.
+5) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
 
 
 ### Let's Provision!
