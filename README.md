@@ -30,37 +30,29 @@ In order to provision a cluster, a couple of items have to be in place:
 
 Warning:  Running these plays will provision items in your AWS account, and you may incur billing charges. These plays are not suitable for the AWS free-tier.
 
-#### Step 1
+#### Step 1 - Prepare the Inventory
 
-Prepare the Inventory
+Make a copy of e.g. inventory/inventory_small.example
 
-#### Step 2
-
-Create the AMI
+#### Step 2 - Create the AMI
 
 ```shell
 ansible-playbook -i inventory/inventory_xyz playbooks/build_ami.yml
 ```
 
-#### Step 3
-
-Create the Bastion host
+#### Step 3 - Create the Bastion host
 
 ```shell
 ansible-playbook -i inventory/inventory_xyz playbooks/provision_bastion.yml
 ```
 
-#### Step 4
-
-Create the infrastructure
+#### Step 4 - Create the infrastructure
 
 ```shell
 ansible-playbook -i inventory/inventory_xyz playbooks/provision.yml
 ```
 
-#### Step 5
-
-Create the cluster
+#### Step 5 - Create the cluster
 
 ```shell
 ssh <bastion>
