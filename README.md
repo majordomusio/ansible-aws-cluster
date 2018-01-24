@@ -12,7 +12,7 @@ The following cluster types are supported:
 
 The playbooks create the AWS infrastructure to support above cluster types before installing OpenShift itself.
 
-### Where do I start?
+## Where do I start?
 
 In order to provision a cluster, a couple of items have to be in place:
 
@@ -21,18 +21,20 @@ In order to provision a cluster, a couple of items have to be in place:
 3) Create a SSH key file in the [AWS EC2 console](https://console.aws.amazon.com/ec2/v2/home?#KeyPairs:sort=keyName), and place the public key file in e.g. `~/.ssh`. 
 4) Prepare your `inventory file` by making a copy of e.g. `inventory/inventory_small.example`.
 5) Modify your inventory file to match your needs.
-6) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
+6) Created a pre-built AMI to speed in the provisioning of the clusters.
 
 
 ### TL;DR - Let's Provision!
 
-**WARNING:** Running these plays will provision items in your AWS account, and you may incur billing charges. These plays are not suitable for the AWS free-tier.
+**WARNING:** Running the following plays will provision items in your AWS account, and you may incur billing charges. These plays are not suitable for the AWS free-tier.
 
 More details on each step can be found in later sections ... let's provision a cluster !
 
 #### Step 1 - Prepare the Inventory
 
-Make a copy of e.g. `inventory/inventory_small.example` and give it a unique name e.g. `inventory/inventory_eu_west`. At minimum, the following variables MUST be changed:
+Make a copy of e.g. `inventory/inventory_small.example` and give it a unique name: `inventory/inventory_eu_west`. 
+
+At minimum, the following variables MUST be changed:
 
 ```yaml
 vars:
@@ -61,7 +63,7 @@ ansible-playbook -i inventory/<your_inventory_file> playbooks/build_ami.yml
 
 #### Step 3 - Create the Bastion Host
 
-OpenShift is not provisioned from your local machine, but requires a `bastion host`:
+OpenShift is not provisioned from your local machine, but from a `bastion host`:
 
 ```shell
 ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_bastion.yml
@@ -91,9 +93,11 @@ Start the cluster provisioning:
 ./install-openshift.sh
 ```
 
-The creation of large cluster (infrastructure and OpenShift) will take aproximately 45 minutes.
+The creation of a large cluster (Infrastructure and OpenShift) will take aproximately 45 minutes.
 
-### Stop the Cluster and de-provision the infrastructure
+## DANGERZONE
+
+#### Stop the Cluster and de-provision the infrastructure
 
 **WARNING:** Running the teardown plays will DESTROY ALL DATA in the cluster!
 
@@ -109,7 +113,7 @@ Remove the bastion host:
 ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_bastion.yml
 ```
 
-### Configuration
+## Configuration
 
 #### Cluster Types
 
@@ -139,7 +143,7 @@ The following rules decide on the cluster type:
 
 #### Spot Instances
 
-By default, EC2 Spot Instances are created. The maximum amount to bid can be set in the inventory:
+By default, EC2 Spot Instances are used. The maximum amount to bid can be set in your inventory:
 
 ```yaml
 vars:
@@ -158,3 +162,19 @@ vars:
   infra_node_spot_price:
   app_node_spot_price:
 ```
+
+## Cluster Topology
+
+TBD
+
+## What is next?
+
+The following improvements are on the to-do list:
+
+- More plays to maintain the cluster e.g. start/stop of the cluster or add app nodes
+- Merge repo [majordomusio/ansible-aws-oc-openshift](https://github.com/majordomusio/ansible-aws-oc-openshift) with this one to support an *all-in-one* cluster installation.
+- Support for EC2 Elastic Loadbalancers instead of the HAProxy Loadbalancer fronting the master nodes.
+- Same for infra nodes
+- Use Let's Encrypt to create certificates for the apps deployed on the cluster
+- Add Gluster support back in
+- Alternative user authentication methods
