@@ -1,5 +1,4 @@
 # ansible-aws-cluster-openshift
-Provisions a simple OpenShift cluster environment on AWS
 
 This repository contains [Ansible](https://www.ansible.com/) roles and
 playbooks to install, upgrade, and manage simple
@@ -7,10 +6,10 @@ playbooks to install, upgrade, and manage simple
 
 The following cluster types are supported:
 
-* Single Developer - A OpenShift installation on a single EC2 instance.
 * Small - 1 Master Node, 1 .. n App Nodes
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
 * Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
+* Single Developer - A OpenShift installation on a single EC2 instance. (COMING SOON).
 
 The playbooks will create the AWS infrastructure to support above cluster types before installing OpenShift itself.
 
@@ -38,20 +37,20 @@ Make a copy of e.g. `inventory/inventory_small.example` and give it a unique nam
 
 ```yaml
 vars:
-    # AWS access key
-    aws_access_key: AKI...
-    aws_secret_key: 7te...
-    # The AWS region to deploy to
-    region: eu-west-1
-    # AWS keyname and local keyfile location
-    key_name: openshift
-    ansible_ssh_private_key_file: ~/.ssh/openshift.pem
-    # Public DNS zone setup
-    namespace: openshift
-    public_dns_zone: example.com
+  # AWS access key
+  aws_access_key: AKI...
+  aws_secret_key: 7te...
+  # The AWS region to deploy to
+  region: eu-west-1
+  # AWS keyname and local keyfile location
+  key_name: openshift
+  ansible_ssh_private_key_file: ~/.ssh/openshift.pem
+  # Public DNS zone setup
+  namespace: openshift
+  public_dns_zone: example.com
 ```
 
-Changing all other variables is OPTIONAL. More configuration options can be found in `playbooks/group_vars/all`.
+Changing all other variables is OPTIONAL. More configuration options can be found in file `playbooks/group_vars/all`.
 
 #### Step 2 - Create the AMI
 
@@ -63,7 +62,7 @@ ansible-playbook -i inventory/<your_inventory_file> playbooks/build_ami.yml
 
 #### Step 3 - Create the Bastion Host
 
-OpenShift is not provisioned from the local machine, but requires a `bastion host`:
+OpenShift is not provisioned from your local machine, but requires a `bastion host`:
 
 ```shell
 ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_bastion.yml
@@ -97,7 +96,7 @@ The creation of large cluster (infrastructure and OpenShift) will take aproximat
 
 ### Stop the Cluster and de-provision the infrastructure
 
-**WARNING:** Running the teardown plays will DESTROY ALL DATA !
+**WARNING:** Running the teardown plays will DESTROY ALL DATA in the cluster!
 
 Remove the OpenShift cluster:
 
@@ -110,3 +109,32 @@ Remove the bastion host:
 ```shell
 ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_bastion.yml
 ```
+
+### Configuration
+
+#### Cluster Types
+
+The playbooks support the following three types of clusters:
+
+* Small - 1 Master Node, 1 .. n App Nodes
+* Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
+* Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
+
+The type of cluster to provision depends on the following variables in your inventory file:
+
+```yaml
+vars:
+  # Cluster size
+  master_nodes: 1
+  infra_nodes: 0
+  app_nodes: 1
+```
+
+The following rules decide on the cluster type:
+
+| master_nodes | infra_nodes | app_nodes | Cluster Type |
+|--------------|-------------|-----------|--------------|
+|      1       |      0      |  1 .. n   |  SMALL       |
+|      1       |      1,2    |  1 .. n   |  MEDIUM      |
+|      3       |      2 ..   |  3 .. n   |  LARGE       |
+
