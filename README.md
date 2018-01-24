@@ -95,9 +95,19 @@ Start the cluster provisioning:
 
 The creation of a large cluster (Infrastructure and OpenShift) will take aproximately 45 minutes.
 
+#### Step 6 - Access the Cluster
+
+Once the provisioning tasks are done, you can access the cluster via it's public hostname, e.g:  
+
+https://master.openshift.example.com:8443  
+
+When prompted for a username and password, simply choose any username/password combination. The cluster is configured to accept any users. 
+To change this behaviour, modify the inventory templates in `roles/prepare_inventories/files`.
+
+
 ## DANGERZONE
 
-#### Stop the Cluster and de-provision the infrastructure
+### Stop the Cluster and de-provision the infrastructure
 
 **WARNING:** Running the teardown plays will DESTROY ALL DATA in the cluster!
 
