@@ -8,7 +8,7 @@ The following cluster types are supported:
 
 * Small - 1 Master Node, 1 .. n App Nodes
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
-* Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
+* Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 3 .. n App Nodes
 * Single Developer - A OpenShift installation on a single EC2 instance. (COMING SOON).
 
 The playbooks will create the AWS infrastructure to support above cluster types before installing OpenShift itself.
@@ -114,11 +114,11 @@ ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_bastion.y
 
 #### Cluster Types
 
-The playbooks support the following three types of clusters:
+The playbooks support the following types of clusters:
 
 * Small - 1 Master Node, 1 .. n App Nodes
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
-* Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
+* Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 3 .. n App Nodes
 
 The type of cluster to provision depends on the following variables in your inventory file:
 
@@ -135,6 +135,27 @@ The following rules decide on the cluster type:
 | master_nodes | infra_nodes | app_nodes | Cluster Type |
 |--------------|-------------|-----------|--------------|
 |      1       |      0      |  1 .. n   |  SMALL       |
-|      1       |      1,2    |  1 .. n   |  MEDIUM      |
+|      1       |      1      |  1 .. n   |  MEDIUM      |
 |      3       |      2 ..   |  3 .. n   |  LARGE       |
 
+#### Spot Instances
+
+By default, EC2 Spot Instances are created. The maximum amount to bid can be set in the inventory:
+
+```yaml
+vars:
+  # EC2 instance configuration
+  bastion_spot_price: 0.04
+  infra_node_spot_price: 0.10
+  app_node_spot_price: 0.10
+```
+
+To disable spot instances, simply remove their bid price:
+
+```yaml
+vars:
+  # EC2 instance configuration
+  bastion_spot_price:
+  infra_node_spot_price:
+  app_node_spot_price:
+```
