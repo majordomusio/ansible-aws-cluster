@@ -20,12 +20,11 @@ In order to provision a cluster, a couple of items have to be in place:
 
 1) AWS account credentials must be present (aws_access_key, aws_secret_key)
 2) In order to route traffic to the cluster, you need a public zone file and doamin configured in `AWS Route53`.
-3) Create a SSH key file in the AWS console, and place the public key in e.g. `~/.ssh`.
+3) Create a SSH key file in the AWS console, and place the public key in e.g. `~/.ssh`. See [My Security Credentials](https://console.aws.amazon.com/iam/home#/security_credential).
 4) Prepare your `inventory file` by making a copy of e.g. `inventory/inventory_small.example`.
 5) Modify your inventory file to match your needs.
 6) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
 
-See ('My Security Credentials')[https://console.aws.amazon.com/iam/home#/security_credential].
 
 ### TL;DR - Let's Provision!
 
