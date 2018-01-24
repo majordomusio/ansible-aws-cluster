@@ -1,8 +1,7 @@
 # ansible-aws-cluster-openshift
 
 This repository contains [Ansible](https://www.ansible.com/) roles and
-playbooks to install, upgrade, and manage simple
-[OpenShift](https://www.openshift.com/) clusters on AWS.
+playbooks to install simple [OpenShift](https://www.openshift.com/) clusters on AWS.
 
 The following cluster types are supported:
 
@@ -11,15 +10,15 @@ The following cluster types are supported:
 * Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 3 .. n App Nodes
 * Single Developer - A OpenShift installation on a single EC2 instance. (COMING SOON).
 
-The playbooks will create the AWS infrastructure to support above cluster types before installing OpenShift itself.
+The playbooks create the AWS infrastructure to support above cluster types before installing OpenShift itself.
 
 ### Where do I start?
 
 In order to provision a cluster, a couple of items have to be in place:
 
-1) AWS account credentials must be present (aws_access_key, aws_secret_key)
-2) In order to route traffic to the cluster, you need a public zone file and doamin configured in `AWS Route53`.
-3) Create a SSH key file in the AWS console, and place the public key in e.g. `~/.ssh`. See [My Security Credentials](https://console.aws.amazon.com/iam/home#/security_credential).
+1) AWS account credentials must be present (aws_access_key, aws_secret_key). See [My Security Credentials](https://console.aws.amazon.com/iam/home#/security_credential).
+2) In order to route traffic to the cluster, you need a public zone file and domain configured in [AWS Route53](https://console.aws.amazon.com/route53/home).
+3) Create a SSH key file in the [AWS EC2 console](https://console.aws.amazon.com/ec2/v2/home?#KeyPairs:sort=keyName), and place the public key file in e.g. `~/.ssh`. 
 4) Prepare your `inventory file` by making a copy of e.g. `inventory/inventory_small.example`.
 5) Modify your inventory file to match your needs.
 6) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
