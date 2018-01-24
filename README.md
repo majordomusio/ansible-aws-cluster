@@ -101,8 +101,7 @@ Once the provisioning tasks are done, you can access the cluster via it's public
 
 https://master.openshift.example.com:8443  
 
-When prompted for a username and password, simply choose any username/password combination. The cluster is configured to accept any users. 
-To change this behaviour, modify the inventory templates in `roles/prepare_inventories/files`.
+When prompted for a username and password, simply choose any username/password combination, the cluster will accept them. To change this behaviour, modify the inventory templates in `roles/prepare_inventories/files`.
 
 
 ## DANGERZONE
@@ -177,6 +176,8 @@ vars:
 
 TBD
 
+![HA Cluster](./docs/large-openshift.png)
+
 ## What is next?
 
 The following improvements are on the to-do list:
@@ -188,3 +189,8 @@ The following improvements are on the to-do list:
 - Use Let's Encrypt to create certificates for the apps deployed on the cluster
 - Add Gluster support back in
 - Alternative user authentication methods
+
+## Contributing
+
+All pull requests are welcome !
+
