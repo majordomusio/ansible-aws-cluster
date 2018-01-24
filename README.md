@@ -7,12 +7,12 @@ playbooks to install, upgrade, and manage simple
 
 The following cluster types are supported:
 
-* Single DEV - A OpenShift installation on a single EC2 instance.
+* Single Developer - A OpenShift installation on a single EC2 instance.
 * Small - 1 Master Node, 1 .. n App Nodes
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
 * Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 4 .. n App Nodes
 
-The playbooks will create all of the AWS infrastructure to support above cluster types and install the OpenShift cluster itself.
+The playbooks will create the AWS infrastructure to support above cluster types before installing OpenShift itself.
 
 ### Where do I start?
 
@@ -26,35 +26,71 @@ In order to provision a cluster, a couple of items have to be in place:
 6) Created a pre-built AMI. To speed in the provisioning of medium and large clusters, a pre-built AMI is used.
 
 
-### Let's Provision!
+### TL;DR - Let's Provision!
 
 Warning:  Running these plays will provision items in your AWS account, and you may incur billing charges. These plays are not suitable for the AWS free-tier.
 
+More details on each step can be found in later sections ... let's provision a cluster !
+
 #### Step 1 - Prepare the Inventory
 
-Make a copy of e.g. inventory/inventory_small.example
+Make a copy of e.g. `inventory/inventory_small.example` and give it a unique name e.g. `inventory/inventory_eu_west`. At minimum, the following variables MUST be changed:
+
+```yaml
+vars:
+    # AWS access key
+    aws_access_key: AKI...
+    aws_secret_key: 7te...
+    # The AWS region to deploy to
+    region: eu-west-1
+    # AWS keyname and local keyfile location
+    key_name: openshift
+    ansible_ssh_private_key_file: ~/.ssh/openshift.pem
+    # Public DNS zone setup
+    namespace: openshift
+    public_dns_zone: example.com
+```
+
+Changing all other variables is optional. More configuration options can be found in `playbooks/group_vars/all`.
 
 #### Step 2 - Create the AMI
 
+Start the creation of the pre-built AMI:
+
 ```shell
-ansible-playbook -i inventory/inventory_xyz playbooks/build_ami.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/build_ami.yml
 ```
 
 #### Step 3 - Create the Bastion host
 
+OpenShift is not provisioned from the local machine, but requires a `bastion host`:
+
 ```shell
-ansible-playbook -i inventory/inventory_xyz playbooks/provision_bastion.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_bastion.yml
 ```
 
 #### Step 4 - Create the infrastructure
 
+Create all AWS assets (vpc, security groups, EC2 instances, DNS entries etc.):
+
 ```shell
-ansible-playbook -i inventory/inventory_xyz playbooks/provision.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/provision.yml
 ```
 
 #### Step 5 - Create the cluster
 
+Log into the bastion host with SSH:
+
 ```shell
-ssh <bastion>
-./install_openshift.sh
+ssh -i ~/.ssh/openshift.pem centos@bastion.openshift.example.com
 ```
+
+Replace `openshift.example.com` with your namespace and public domain !
+
+Start the cluster creation:
+
+```shell
+./install-openshift.sh
+```
+
+The creation of large cluster (infrastructure and OpenShift) will take aproximately 45 minutes.
