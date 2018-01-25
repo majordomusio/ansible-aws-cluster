@@ -50,3 +50,18 @@
   delegate_to: "{{ base_public_ip }}"
   remote_user: "{{ instance_user }}"  
   become: true
+
+- name: Add a swap file
+  shell: >
+        dd if=/dev/zero of=/swapfile count=8192 bs=1M
+
+        chmod 600 /swapfile
+
+        mkswap /swapfile
+
+        swapon /swapfile
+
+        echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"  
+  become: true
