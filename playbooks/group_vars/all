@@ -15,7 +15,7 @@ ami_name: ami_ocp_base
 #
 # See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
 #
-bastion_instance_type: "t2.medium"
+bastion_instance_type: "t2.small"
 infra_instance_type: "m4.xlarge"
 app_instance_type: "m4.xlarge"
 
