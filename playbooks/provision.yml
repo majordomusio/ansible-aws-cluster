@@ -36,6 +36,7 @@
     - role: ../roles/prepare_inventories
 
 - name: Install OpenShift
-  shell: './install-openshift.sh |& tee install-openshift.log'
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ instance_user }}"
+  hosts: localhost
+  roles:
+    - role: ../roles/install_openshift
+    
