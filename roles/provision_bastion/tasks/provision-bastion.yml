@@ -35,13 +35,13 @@
    bastion_private_ip: "{{ ec2_bastion['tagged_instances'][0]['private_ip'] }}"
    bastion_public_ip: "{{ ec2_bastion['tagged_instances'][0]['public_ip'] }}"
 
-- name: Add router to created_instances group
-  add_host:
-    name={{ item.ip }}
-    groups=created_instances
-    instance_name={{ item.name }}
-  with_items:
-    - { name: 'bastion', ip: '{{bastion_public_ip}}' }
+#- name: Add router to created_instances group
+  #add_host:
+  #  name={{ item.ip }}
+  #  groups=created_instances
+  #  instance_name={{ item.name }}
+  #with_items:
+  #  - { name: 'bastion', ip: '{{bastion_public_ip}}' }
 
 - name: Add public bastion A record
   route53:

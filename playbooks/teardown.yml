@@ -1,8 +1,16 @@
 
-- name: Teardown infrastructure
+- name: Teardown instances
   hosts: localhost
   gather_facts: false
   roles:
   - role: ../roles/teardown_instances
+  - role: ../roles/teardown_bastion
+
+- name: Teardown infrastructure
+  hosts: localhost
+  gather_facts: false
+  roles:
   - role: ../roles/teardown_security_groups
+  - role: ../roles/teardown_default_security_groups
   - role: ../roles/teardown_dns
+  - role: ../roles/teardown_vpc

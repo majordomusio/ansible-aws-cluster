@@ -5,18 +5,6 @@
   roles:
     - role: ../roles/create_vpc
     - role: ../roles/create_security_groups
-    - role: ../roles/create_default_security_groups
-
-- name: Prepare bastion host
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - role: ../roles/provision_bastion
-
-- name: Prepare cluster
-  hosts: localhost
-  gather_facts: false
-  roles:
     - role: ../roles/create_instances
     - role: ../roles/create_dns
     - role: ../roles/create_ssh
@@ -34,8 +22,3 @@
   hosts: localhost
   roles:
     - role: ../roles/prepare_inventories
-
-- name: Install OpenShift
-  shell: './install-openshift.sh |& tee install-openshift.log'
-  delegate_to: "{{ bastion_public_ip }}"
-  remote_user: "{{ instance_user }}"

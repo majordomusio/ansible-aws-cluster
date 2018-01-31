@@ -74,7 +74,7 @@ ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_bastion.
 Create all AWS assets (vpc, security groups, EC2 instances, DNS entries etc.):
 
 ```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/provision.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_infra.yml
 ```
 
 #### Step 5 - Create the cluster
@@ -113,7 +113,7 @@ When prompted for a username and password, simply choose any username/password c
 Remove the OpenShift cluster:
 
 ```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_infra.yml
 ```
 
 Remove the bastion host:
