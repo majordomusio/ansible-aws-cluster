@@ -17,6 +17,8 @@
 - include_tasks: create-router-node.yml
   when: master_nodes > 1
 
+- include_tasks: create-host-groups.yml
+
 - name: Wait for masters SSH to come up
   wait_for:
     host: '{{ item.public_ip }}'
