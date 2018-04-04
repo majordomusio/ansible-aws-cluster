@@ -18,7 +18,6 @@
   yum:
     name:
       - "wget"
-      - "git"
       - "net-tools"
       - "ntp"
       - "bind-utils"
@@ -28,7 +27,7 @@
       - "kexec-tools"
       - "sos"
       - "psacct"
-      - "docker-1.12.6"
+      - "docker-1.13.1"
       - "NetworkManager"
       # Needed for metrics, see: https://github.com/openshift/openshift-ansible/issues/4282
       - "python-passlib"
@@ -41,7 +40,8 @@
 
 #
 # see 
-# https://github.com/openshift/openshift-ansible/issues/5236 
+# https://github.com/openshift/openshift-ansible/issues/5236
+#
 # and
 # https://github.com/openshift/openshift-ansible/issues/4950 
 #

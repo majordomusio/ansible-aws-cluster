@@ -24,7 +24,7 @@ app_instance_type: "m4.xlarge"
 #
 
 # OpenShift version
-openshift_branch: "release-3.7"
+openshift_branch: "release-3.9"
 deployment_type: "origin"
 
 # Volume size
@@ -34,3 +34,7 @@ docker_volume_size: 50
 # Networking
 vpc_cidr: "10.0.0.0/16"
 subnet_cidr: "10.0.1.0/24"
+
+# Latest Ansible
+ansible_rpm_url: "https://rpmfind.net/linux/fedora-secondary/updates/26/aarch64/Packages/a/ansible-2.4.3.0-1.fc26.noarch.rpm"
+ansible_rpm: "ansible-2.4.3.0-1.fc26.noarch.rpm"
