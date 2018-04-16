@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: false
   roles:
-  - role: ../roles/teardown_instances
-  - role: ../roles/teardown_bastion
+  - role: ../roles/deprovision_instances
+  - role: ../roles/deprovision_bastion
 
 - name: Teardown infrastructure
   hosts: localhost
