@@ -25,7 +25,7 @@ app_instance_type: "m4.large"
 
 # OpenShift version
 deployment_type: "origin"
-openshift_release: "v3.9.0"
+openshift_release: "v3.7"
 openshift_ansible_branch: "release-3.9"
 
 # Volume size
