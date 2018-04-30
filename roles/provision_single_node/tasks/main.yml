@@ -27,11 +27,11 @@
         volume_type: gp2        
         delete_on_termination: true
     count_tag:
-      Name: "node_{{ namespace }}"
+      Name: "api_{{ namespace }}"
     instance_tags:
-      Name: "node_{{ namespace }}"
+      Name: "api_{{ namespace }}"
       namespace: "{{ namespace }}"
-      role: "node"
+      role: "api"
       group: "admin"
     exact_count: 1
     assign_public_ip: yes
