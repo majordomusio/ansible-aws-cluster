@@ -1,35 +1,35 @@
 
 - name: Find AMI
   ec2_ami_find:
-     image_id: "{{image_id}}"
-     region: "{{region}}"
+     image_id: "{{ image_id }}"
+     region: "{{ region }}"
   register: "ami_find"
 
 - name: Provision AMI
   ec2:
     instance_type: "{{ bastion_instance_type }}"
-    image:  "{{ami_find['images'][0]['image_id']}}"
-    region: "{{region}}"
+    image:  "{{ ami_find['images'][0]['image_id'] }}"
+    region: "{{ region }}"
     spot_price: "{{ infra_node_spot_price }}"
     spot_wait_timeout: 300
     wait: true
-    key_name: "{{key_name}}"
-    vpc_subnet_id: "{{subnet_facts['subnet']['id']}}"
+    key_name: "{{ key_name }}"
+    vpc_subnet_id: "{{ subnet_facts['subnet']['id'] }}"
     group: ['{{ namespace }}_vpc', '{{ namespace }}_default']
     volumes:
-      - device_name: "{{ami_find['images'][0]['root_device_name']}}" 
-        volume_size: "{{root_volume_size}}"
+      - device_name: "{{ ami_find['images'][0]['root_device_name'] }}" 
+        volume_size: "{{ root_volume_size }}"
         volume_type: gp2        
         delete_on_termination: true
       - device_name: "/dev/xvdb"
-        volume_size: "{{docker_volume_size}}"
+        volume_size: "{{ docker_volume_size }}"
         volume_type: gp2        
         delete_on_termination: true
     count_tag:
-      Name: "base_{{namespace}}"
+      Name: "base_{{ namespace }}"
     instance_tags:
-      Name: "base_{{namespace}}"
-      role: "base_{{namespace}}"
+      Name: "base_{{ namespace }}"
+      role: "base_{{ namespace }}"
     exact_count: 1
     assign_public_ip: yes
   register: ec2_base

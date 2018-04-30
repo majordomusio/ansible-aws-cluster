@@ -21,13 +21,13 @@
   
 - name: Create the OpenShift cluster-up script
   shell: >
-        echo "/usr/local/oc cluster up --public-hostname='node.{{namespace}}.{{public_dns_zone}}'
-        --routing-suffix='{{public_subdomain_prefix}}.{{namespace}}.{{public_dns_zone}}' 
+        echo "/usr/local/oc cluster up --public-hostname='api.{{ namespace }}.{{ public_dns_zone }}'
+        --routing-suffix='{{ public_subdomain_prefix }}.{{ namespace }}.{{ public_dns_zone }}' 
         --host-config-dir={{ ocp_root }}/v1
         --host-data-dir={{ ocp_root }}/v2
         --host-pv-dir={{ ocp_root }}/v3
         --host-volumes-dir={{ ocp_root }}/v4 
-        --use-existing-config=true --logging={{ openshift_logging }} --metrics={{ openshift_metrics }} --version={{ openshift_version }}" >>
+        --use-existing-config=true --logging=false --metrics=false --service-catalog=false --version={{ openshift_version }}" >>
         {{ ocp_root }}/cluster_up
 
         chmod +x {{ ocp_root }}/cluster_up

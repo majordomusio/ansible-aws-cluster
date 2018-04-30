@@ -1,30 +1,29 @@
-
-- name: Find AMI
-  ec2_ami_find:
-    owner: self
-    ami_tags:
-      Name: "{{ ami_name }}"
-    region: "{{region}}"
-  register: "ami_find"
   
+- name: Find AMI
+  ec2_ami_facts:
+    region: "{{region}}"
+    filters:
+      "tag:Name": "{{ ami_name }}"
+  register: "ami_find"
+
 - name: Provision single node instance
   ec2:
     instance_type: "{{ infra_instance_type }}"
-    image:  "{{ami_find['images'][0]['image_id']}}"
+    image:  "{{ ami_find['images'][0]['image_id'] }}"
     region: "{{ region }}"
     spot_price: "{{ infra_node_spot_price }}"
     spot_wait_timeout: 300
     wait: true
     key_name: "{{ key_name }}"
     vpc_subnet_id: "{{ subnet_facts['subnet']['id'] }}"
-    group: ['{{namespace}}_public_ingress', '{{namespace}}_public_egress', '{{namespace}}_ssh']
+    group: ['{{ namespace }}_public_ingress', '{{ namespace }}_public_egress', '{{ namespace }}_ssh']
     volumes:
-      - device_name: "{{ami_find['images'][0]['root_device_name']}}" 
-        volume_size: "{{root_volume_size}}"
+      - device_name: "{{ ami_find['images'][0]['root_device_name'] }}" 
+        volume_size: "{{ root_volume_size }}"
         volume_type: gp2        
         delete_on_termination: true
       - device_name: "/dev/xvdb"
-        volume_size: "{{docker_volume_size}}"
+        volume_size: "{{ docker_volume_size }}"
         volume_type: gp2        
         delete_on_termination: true
     count_tag:
@@ -49,12 +48,12 @@
     groups=created_instances
     instance_name={{ item.name }}
   with_items:
-    - { name: 'node', ip: '{{node_public_ip}}' }
+    - { name: 'api', ip: '{{ node_public_ip }}' }
 
-- name: Add public A record
+- name: Add public A record for the API
   route53:
-    zone: "{{public_dns_zone}}"
-    record: "node.{{ namespace }}.{{ public_dns_zone }}"
+    zone: "{{ public_dns_zone }}"
+    record: "api.{{ namespace }}.{{ public_dns_zone }}"
     type: A
     ttl: 300
     value: "{{ node_public_ip }}"
@@ -64,8 +63,8 @@
 
 - name: Add public wildcard A record, mapped to the node (e.g. *.apps.ocp.example.com)
   route53:
-    zone: "{{public_dns_zone}}"
-    record: "*.{{public_subdomain_prefix}}.{{namespace}}.{{public_dns_zone}}"
+    zone: "{{ public_dns_zone }}"
+    record: "*.{{ public_subdomain_prefix }}.{{ namespace }}.{{ public_dns_zone }}"
     type: A
     ttl: 300
     value: "{{ node_public_ip }}"
@@ -77,7 +76,7 @@
   wait_for:
     host: '{{ item }}'
     port: 22
-    delay: 60
+    delay: 30
     timeout: 300
     state: started
   with_items:

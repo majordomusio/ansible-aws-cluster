@@ -3,6 +3,6 @@
   hosts: localhost
   gather_facts: false
   roles:
-  - role: ../roles/teardown_single_node
+  - role: ../roles/deprovision_single_node
   - role: ../roles/teardown_security_groups
   - role: ../roles/teardown_vpc

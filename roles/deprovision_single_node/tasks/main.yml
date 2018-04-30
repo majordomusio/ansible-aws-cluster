@@ -6,7 +6,7 @@
     region: "{{ region }}"
     filters:
       "tag:namespace": "{{ namespace }}"
-      "tag:role": "node"
+      "tag:role": "api"
   register: ec2_facts
 
 - name: Terminate EC2 VMs
@@ -24,6 +24,6 @@
   ignore_errors: true
 
 - name: Delete public apps route (e.g. apps.ocp.example.com)
-  include: delete-route.yml zone="{{ public_dns_zone }}" record="*.{{public_subdomain_prefix}}.{{namespace}}.{{public_dns_zone}}" private_zone="false"
+  include: delete-route.yml zone="{{ public_dns_zone }}" record="*.{{ public_subdomain_prefix }}.{{ namespace }}.{{ public_dns_zone }}" private_zone="false"
   wait: yes
   ignore_errors: true
