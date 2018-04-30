@@ -1,4 +1,4 @@
----
+
 - name: Gather VPC facts
   ec2_vpc_net_facts:
     region: "{{ region }}"
@@ -6,25 +6,34 @@
       "tag:Name": "{{namespace}}_vpc"
   register: vpc_facts
 
-- name: Remove subnets and route tables from VPC
-  local_action:
-    module: ec2_vpc
+- name: Remove public subnet route tables
+  ec2_vpc_route_table:
     vpc_id: "{{ item.id }}"
     region: "{{ region }}"
-    state: present
-    resource_tags: "{}"
-    subnets: []
-    internet_gateway: False
-    route_tables: []
-    wait: yes
+    state: "absent"
   with_items: "{{ vpc_facts.vpcs }}"
 
-- name: Delete VPC
-  local_action:
-    module: ec2_vpc
+- name: Remove subnets
+  ec2_vpc_subnet:
+    vpc_id: "{{ item.id }}"
+    cidr: "{{ subnet_cidr }}"
+    region: "{{ region }}"
+    state: "absent"
+    wait: true
+  with_items: "{{ vpc_facts.vpcs }}"
+
+- name: Remove Internet Gateways
+  ec2_vpc_igw:
     vpc_id: "{{ item.id }}"
     region: "{{ region }}"
-    state: absent
-    resource_tags: "{}"
-    wait: yes  
-  with_items: "{{ vpc_facts.vpcs }}"    
+    state: "absent"
+  with_items: "{{ vpc_facts.vpcs }}"
+
+- name: Remove VPC
+  ec2_vpc_net:
+    name: "{{ namespace }}_vpc"
+    cidr_block: "{{ vpc_cidr }}"
+    region: "{{ region }}"
+    state: "absent"
+  with_items: "{{ vpc_facts.vpcs }}"
+

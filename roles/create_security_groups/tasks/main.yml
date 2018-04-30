@@ -58,18 +58,3 @@
         from_port: "8443"
         to_port: "8443"
         cidr_ip: "0.0.0.0/0"
-
-# Security group which allows SSH access to a host.
-- name: Create ssh security group
-  ec2_group:
-    name: "{{namespace}}_ssh"
-    description: "Default security group that allows all instances in the VPC to talk to each other via ssh"
-    vpc_id: "{{vpc_id}}"
-    region: "{{region}}"
-    state: "present"
-    rules:
-      - proto: "tcp"
-        from_port: "22"
-        to_port: "22"
-        cidr_ip: "0.0.0.0/0"
-    rules_egress: []

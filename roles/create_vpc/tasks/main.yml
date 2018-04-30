@@ -1,7 +1,7 @@
 
 - name: Provision VPC
   ec2_vpc_net:
-    name: "{{ namespace }}-vpc"
+    name: "{{ namespace }}_vpc"
     cidr_block: "{{ vpc_cidr }}"
     tags:
       Name: "{{ namespace }}_vpc"
