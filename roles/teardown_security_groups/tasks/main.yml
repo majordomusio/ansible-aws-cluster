@@ -10,9 +10,3 @@
     name: "{{namespace}}_public_egress"
     region: "{{region}}"
     state: "absent"
-
-- name: Delete ssh security group
-  ec2_group:
-    name: "{{namespace}}_ssh"
-    region: "{{region}}"
-    state: "absent"

@@ -10,12 +10,20 @@
     state: "present"
   register: vpc_facts
 
+- name: PAUSE
+  pause:
+    seconds: 20
+
 - name: Provision Internet Gateway
   ec2_vpc_igw:
     vpc_id: "{{ vpc_facts['vpc']['id'] }}"
     region: "{{ region }}"
     state: "present"
   register: igw_facts
+
+- name: PAUSE
+  pause:
+    seconds: 20
 
 - name: Provision Subnet
   ec2_vpc_subnet:
@@ -29,6 +37,10 @@
     wait: true
   register: subnet_facts
 
+- name: PAUSE
+  pause:
+    seconds: 20
+    
 - name: Set up public subnet route table
   ec2_vpc_route_table:
     vpc_id: "{{ vpc_facts['vpc']['id'] }}"
