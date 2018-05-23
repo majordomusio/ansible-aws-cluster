@@ -1,5 +1,5 @@
 
-- name: Teardown single node
+- name: Teardown Single Node
   hosts: localhost
   gather_facts: false
   roles:

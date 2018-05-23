@@ -1,5 +1,5 @@
 
-- name: Prepare infrastructure
+- name: Prepare Infrastructure
   hosts: localhost
   gather_facts: false
   roles:
@@ -7,13 +7,13 @@
     - role: ../roles/create_default_security_groups
     - role: ../roles/create_security_groups
 
-- name: Prepare single node
+- name: Prepare Single Node
   hosts: localhost
   gather_facts: false
   roles:
     - role: ../roles/provision_single_node
 
-- name: Update instances
+- name: Update Instances
   hosts: created_instances
   vars:
     state: 'present'

@@ -1,12 +1,12 @@
 
-- name: Teardown instances
+- name: Teardown Instances
   hosts: localhost
   gather_facts: false
   roles:
   - role: ../roles/deprovision_instances
   - role: ../roles/deprovision_bastion
 
-- name: Teardown infrastructure
+- name: Teardown Infrastructure
   hosts: localhost
   gather_facts: false
   roles:

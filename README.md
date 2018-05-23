@@ -61,41 +61,17 @@ Start the creation of the pre-built AMI:
 ansible-playbook -i inventory/<your_inventory_file> playbooks/build_ami.yml
 ```
 
-#### Step 3 - Create the Bastion Host
+#### Step 3 - Create the Cluster
 
-OpenShift is not provisioned from your local machine, but from a `bastion host`:
-
-```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_bastion.yml
-```
-
-#### Step 4 - Create the infrastructure
-
-Create all AWS assets (vpc, security groups, EC2 instances, DNS entries etc.):
+Run the main playbook to create the infrastructure and then create the cluster:
 
 ```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_infra.yml
-```
-
-#### Step 5 - Create the cluster
-
-Log into the bastion host:
-
-```shell
-ssh -i ~/.ssh/openshift.pem centos@bastion.openshift.example.com
-```
-
-Replace `openshift.example.com` with your namespace and public domain !
-
-Start the cluster provisioning:
-
-```shell
-./install-openshift.sh
+ansible-playbook -i inventory/<your_inventory_file> playbooks/provision.yml
 ```
 
 The creation of a large cluster (Infrastructure and OpenShift) will take aproximately 45 minutes.
 
-#### Step 6 - Access the Cluster
+#### Step 4 - Access the Cluster
 
 Once the provisioning tasks are done, you can access the cluster via it's public hostname, e.g:  
 
@@ -113,13 +89,7 @@ When prompted for a username and password, simply choose any username/password c
 Remove the OpenShift cluster:
 
 ```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_infra.yml
-```
-
-Remove the bastion host:
-
-```shell
-ansible-playbook -i inventory/<your_inventory_file> playbooks/teardown_bastion.yml
+ansible-playbook -i inventory/<your_inventory_file> playbooks/deprovision.yml
 ```
 
 ## Configuration
