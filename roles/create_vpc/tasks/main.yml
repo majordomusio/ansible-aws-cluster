@@ -12,7 +12,7 @@
 
 - name: PAUSE
   pause:
-    seconds: 20
+    seconds: "{{ vpc_setup_delay }}"
 
 - name: Provision Internet Gateway
   ec2_vpc_igw:
@@ -23,7 +23,7 @@
 
 - name: PAUSE
   pause:
-    seconds: 20
+    seconds: "{{ 2 * vpc_setup_delay }}"
 
 - name: Provision Subnet
   ec2_vpc_subnet:
@@ -34,12 +34,12 @@
       namespace: "{{ namespace }}"
     region: "{{ region }}"
     state: "present"
-    wait: true
+    wait: yes
   register: subnet_facts
 
 - name: PAUSE
   pause:
-    seconds: 20
+    seconds: "{{ vpc_setup_delay }}"
     
 - name: Set up public subnet route table
   ec2_vpc_route_table:
@@ -56,10 +56,11 @@
     state: "present"
   register: route_facts
 
+- name: PAUSE
+  pause:
+    seconds: "{{ vpc_setup_delay }}"
+
 - name: Register VPC facts
   set_fact:
-   vpc_id: "{{ vpc_facts['vpc']['id'] }}"
-
-- name: Set Availability Zone fact
-  set_fact:
+    vpc_id: "{{ vpc_facts['vpc']['id'] }}"
     availability_zone: "{{ subnet_facts['subnet']['availability_zone'] }}"

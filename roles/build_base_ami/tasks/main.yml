@@ -1,4 +1,19 @@
 
+- name: Find existing AMI
+  ec2_ami_facts:
+    region: "{{region}}"
+    filters:
+      "tag:Name": "{{ ami_name }}"
+  register: "base_ami"
+
+- name: Remove existing AMI
+  ec2_ami:
+    image_id: "{{ base_ami['images'][0]['image_id'] }}"
+    region: "{{ region }}"
+    delete_snapshot: yes
+    state: absent
+  ignore_errors: true
+  
 - name: Create a new instance
   include: provision-instance.yml
 
@@ -13,7 +28,6 @@
     tags:
       Name: "{{ ami_name }}"
     wait: yes
-  register: base_image
 
 - name: Destroy the active instance
   include: destroy-instance.yml

@@ -1,8 +1,8 @@
 
 - name: Find AMI
-  ec2_ami_find:
-     image_id: "{{ image_id }}"
-     region: "{{ region }}"
+  ec2_ami_facts:
+    region: "{{ region }}"
+    image_ids: "{{ image_id }}"
   register: "ami_find"
 
 - name: Provision AMI
@@ -26,10 +26,10 @@
         volume_type: gp2        
         delete_on_termination: true
     count_tag:
-      Name: "base_{{ namespace }}"
+      Name: "base_centos"
     instance_tags:
-      Name: "base_{{ namespace }}"
-      role: "base_{{ namespace }}"
+      Name: "base_centos"
+      role: "base_centos"
     exact_count: 1
     assign_public_ip: yes
   register: ec2_base

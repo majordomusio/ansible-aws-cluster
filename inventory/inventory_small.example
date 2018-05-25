@@ -18,7 +18,8 @@ all:
     # The AWS region to deploy to
     #
     region: eu-west-1
-
+    image_id: ami-6e28b517
+    
     #
     # AWS keyname and local keyfile location
     #

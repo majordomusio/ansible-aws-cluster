@@ -2,7 +2,7 @@
 # See https://wiki.centos.org/Cloud/AWS for a list of official CentOS 7 Public Images
 
 # AMI used to build the openshift ami from
-image_id: ami-6e28b517
+#image_id: ami-6e28b517
 
 # Sudo user for the image
 instance_user: centos
@@ -35,6 +35,7 @@ docker_volume_size: 50
 # Networking
 vpc_cidr: "10.0.0.0/16"
 subnet_cidr: "10.0.1.0/24"
+vpc_setup_delay: 15
 
 # Latest Ansible
 ansible_rpm_url: "https://rpmfind.net/linux/fedora-secondary/updates/26/aarch64/Packages/a/ansible-2.5.2-1.fc26.noarch.rpm"
