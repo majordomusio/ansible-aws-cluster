@@ -1,4 +1,14 @@
 
+
+- name: Fix yum mirror speedtest files
+  shell: >
+        rm -f /var/cache/yum/x86_64/7/timedhosts
+        
+        rm -f /var/cache/yum/x86_64/7/timedhosts.txt
+  delegate_to: "{{ base_public_ip }}"
+  remote_user: "{{ instance_user }}"  
+  become: true
+
 - name: Upgrade packages
   yum: name=* state=latest
   delegate_to: "{{ base_public_ip }}"

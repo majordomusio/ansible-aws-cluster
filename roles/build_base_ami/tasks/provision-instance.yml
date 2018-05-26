@@ -10,8 +10,6 @@
     instance_type: "{{ bastion_instance_type }}"
     image:  "{{ ami_find['images'][0]['image_id'] }}"
     region: "{{ region }}"
-    spot_price: "{{ infra_node_spot_price }}"
-    spot_wait_timeout: 300
     wait: true
     key_name: "{{ key_name }}"
     vpc_subnet_id: "{{ subnet_facts['subnet']['id'] }}"
