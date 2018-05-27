@@ -53,7 +53,15 @@ vars:
 
 Changing all other variables is OPTIONAL. More configuration options can be found in file `playbooks/group_vars/all`.
 
-#### Step 2 - Create the AMI
+#### Step 2 - Create the VPC
+
+Start the creation of the Virtual Private Cloud:
+
+```shell
+ansible-playbook -i inventory/<your_inventory_file> playbooks/provision_vpc.yml
+```
+
+#### Step 3 - Create the AMI
 
 Start the creation of the pre-built AMI:
 
@@ -61,7 +69,7 @@ Start the creation of the pre-built AMI:
 ansible-playbook -i inventory/<your_inventory_file> playbooks/build_ami.yml
 ```
 
-#### Step 3 - Create the Cluster
+#### Step 4 - Create the Cluster
 
 Run the main playbook to create the infrastructure and then create the cluster:
 
@@ -71,7 +79,7 @@ ansible-playbook -i inventory/<your_inventory_file> playbooks/provision.yml
 
 The creation of a large cluster (Infrastructure and OpenShift) will take aproximately 45 minutes.
 
-#### Step 4 - Access the Cluster
+#### Step 5 - Access the Cluster
 
 Once the provisioning tasks are done, you can access the cluster via it's public hostname, e.g:  
 
