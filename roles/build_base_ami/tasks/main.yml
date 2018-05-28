@@ -50,7 +50,7 @@
   retries: 20
   delay: 10
 
-- name: Remove the instannce
+- name: Remove the instance
   ec2:
     instance_id: "{{ instance_id }}"
     region: "{{ region }}"
