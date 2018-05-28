@@ -31,18 +31,6 @@
   remote_user: "{{ instance_user }}"
   become: true
 
-#- name: Install Ansible
-#  shell: >
-#    cd /tmp
-#
-#    curl -L -o {{ansible_rpm}} {{ansible_rpm_url}}
-#
-#    rpm -Uvh {{ansible_rpm}}
-#    
-#  delegate_to: "{{ bastion_public_ip }}"
-#  remote_user: "{{ instance_user }}"  
-#  become: true
-
 - name: Checkout openshift-ansible playbooks
   git:
     repo: "https://github.com/openshift/openshift-ansible"
