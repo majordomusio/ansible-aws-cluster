@@ -1,23 +1,17 @@
 # Tmp files
 tmp/
 
-# Used by dotenv library to load environment variables.
-.env
-
 # Make sure NO inventory file gets checked in EVER. It may contain secret keys etc !!
 **/inventory/inventory*
 **/inventory/**
 
+# Make sure certs are checked in 
+**/certs/**
+
 # Ansible
 **/*.retry
 
-# Vagrant
-.vagrant/
-
-# Tests
-test.*
-**/test/**
-
-# MacOS
+# Misc
+hack/**
 .DS_Store
 stuff.md

@@ -3,7 +3,7 @@
   ec2_vpc_net_facts:
     region: "{{ region }}"
     filters:
-      "tag:Name": "{{namespace}}_vpc"
+      "tag:Name": "{{ vpc_name }}"
   register: vpc_facts
 
 - name: Remove public subnet route tables
@@ -31,7 +31,7 @@
 
 - name: Remove VPC
   ec2_vpc_net:
-    name: "{{ namespace }}_vpc"
+    name: "{{ vpc_name }}"
     cidr_block: "{{ vpc_cidr }}"
     region: "{{ region }}"
     state: "absent"

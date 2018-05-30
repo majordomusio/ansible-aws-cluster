@@ -1,11 +1,11 @@
 
 - name: Provision VPC
   ec2_vpc_net:
-    name: "{{ namespace }}_vpc"
+    name: "{{ vpc_name }}"
     cidr_block: "{{ vpc_cidr }}"
     tags:
-      Name: "{{ namespace }}_vpc"
-      namespace: "{{ namespace }}"
+      Name: "{{ vpc_name }}"
+      namespace: "{{ vpc_name }}"
     region: "{{ region }}"
     state: "present"
   register: vpc_facts
@@ -30,8 +30,8 @@
     vpc_id: "{{ vpc_facts['vpc']['id'] }}"
     cidr: "{{ subnet_cidr }}"
     tags:
-      Name: "{{ namespace }}_subnet"
-      namespace: "{{ namespace }}"
+      Name: "{{ vpc_name }}_subnet"
+      namespace: "{{ vpc_name }}"
     region: "{{ region }}"
     state: "present"
     wait: yes
@@ -45,8 +45,8 @@
   ec2_vpc_route_table:
     vpc_id: "{{ vpc_facts['vpc']['id'] }}"
     tags:
-      Name: "{{ namespace }}_route"
-      namespace: "{{ namespace }}"
+      Name: "{{ vpc_name }}_route"
+      namespace: "{{ vpc_name }}"
     subnets:
       - "{{ subnet_facts['subnet']['id'] }}"
     routes:
