@@ -33,7 +33,7 @@ root_volume_size: 50
 docker_volume_size: 50
 
 # Networking
-vpc_name: "default"
-vpc_cidr: "10.0.0.0/16"
-subnet_cidr: "10.0.1.0/24"
+#vpc_name: "default"
+#vpc_cidr: "10.0.0.0/16"
+#subnet_cidr: "10.0.1.0/24"
 vpc_setup_delay: 15
