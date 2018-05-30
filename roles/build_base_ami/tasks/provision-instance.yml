@@ -13,7 +13,7 @@
     wait: true
     key_name: "{{ key_name }}"
     vpc_subnet_id: "{{ subnet_facts['subnet']['id'] }}"
-    group: ['{{ namespace }}_vpc', '{{ namespace }}_default']
+    group: ['{{ namespace }}_ssh', '{{ namespace }}_internal']
     volumes:
       - device_name: "{{ ami_find['images'][0]['root_device_name'] }}" 
         volume_size: "{{ root_volume_size }}"
