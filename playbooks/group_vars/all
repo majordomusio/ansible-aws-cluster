@@ -16,8 +16,8 @@ ami_name: centos_base
 # See https://aws.amazon.com/ec2/pricing/on-demand/ for details on AWS instance sizes and pricing
 #
 bastion_instance_type: "t2.small"
-infra_instance_type: "m4.large"
-app_instance_type: "m4.large"
+#infra_instance_type: "m4.large"
+#app_instance_type: "m4.large"
 
 #
 # ONLY CHANGE BELOW HERE IF YOU KNOW WHAT YOU ARE DOING

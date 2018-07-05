@@ -117,7 +117,7 @@ The following rules define the cluster type:
 | master_nodes | infra_nodes | app_nodes | Cluster Type |
 |--------------|-------------|-----------|--------------|
 |      1       |      0      |  1 .. n   |  SMALL       |
-|      1       |      1      |  1 .. n   |  MEDIUM      |
+|      1       |      > 0    |  1 .. n   |  MEDIUM      |
 |      3       |      2 ..   |  3 .. n   |  LARGE       |
 
 #### Spot Instances
