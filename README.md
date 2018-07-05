@@ -102,7 +102,7 @@ The playbooks support the following types of clusters:
 * Medium - 1 Master Node, 1 Infra Node, 1 .. n App Nodes
 * Large - 3 Master Nodes, 2 Infra Nodes, 1 Load Balancer, 3 .. n App Nodes
 
-The type of cluster to provision depends on the following variables in your inventory file:
+The type of cluster that will be provisioned depends on the following variables in your inventory file:
 
 ```yaml
 vars:
@@ -112,7 +112,7 @@ vars:
   app_nodes: 1
 ```
 
-The following rules decide on the cluster type:
+The following rules define the cluster type:
 
 | master_nodes | infra_nodes | app_nodes | Cluster Type |
 |--------------|-------------|-----------|--------------|
