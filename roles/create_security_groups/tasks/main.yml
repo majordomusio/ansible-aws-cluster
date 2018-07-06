@@ -2,10 +2,10 @@
 #  This security group allows public ingress to the instances for HTTP, HTTPS and common HTTP/S proxy ports.
 - name: Create public-ingress security group
   ec2_group:
-    name: "{{namespace}}_public_ingress"
+    name: "{{ namespace }}_public_ingress"
     description: "Security group that allows public ingress to instances, HTTP, HTTPS and more."
     vpc_id: "{{vpc_id}}"
-    region: "{{region}}"
+    region: "{{ region }}"
     state: "present"
     rules:
       # HTTP
@@ -38,10 +38,10 @@
 #  This security group allows public ingress to the instances for HTTP, HTTPS and common HTTP/S proxy ports.
 - name: Create public-egress security group
   ec2_group:
-    name: "{{namespace}}_public_egress"
+    name: "{{ namespace }}_public_egress"
     description: "This security group allows public egress from the instances for HTTP and HTTPS, which is needed for yum updates, git access etc etc."
     vpc_id: "{{vpc_id}}"
-    region: "{{region}}"
+    region: "{{ region }}"
     state: "present"
     rules_egress:
       # HTTP

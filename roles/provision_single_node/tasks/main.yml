@@ -1,14 +1,14 @@
   
 - name: Find AMI
   ec2_ami_facts:
-    region: "{{region}}"
+    region: "{{ region }}"
     filters:
       "tag:Name": "{{ ami_name }}"
   register: "ami_find"
 
 - name: Provision single node instance
   ec2:
-    instance_type: "{{ infra_instance_type }}"
+    instance_type: "{{ infra_node_type }}"
     image:  "{{ ami_find['images'][0]['image_id'] }}"
     region: "{{ region }}"
     spot_price: "{{ infra_node_spot_price }}"

@@ -5,7 +5,7 @@
   ec2_instance_facts:
     region: "{{ region }}"
     filters:
-      "tag:namespace": "{{namespace}}"
+      "tag:namespace": "{{ namespace }}"
       "tag:group": "cluster"
   register: ec2_facts
 
@@ -23,9 +23,9 @@
 # cluster we are tearing down
 - name: Retrieve dynamic volumes
   ec2_vol_facts:
-    region: "{{region}}"
+    region: "{{ region }}"
     filters:
-        "{'tag:kubernetes.io/cluster/{{namespace}}':'owned','status':'available'}"
+        "{'tag:kubernetes.io/cluster/{{ namespace }}':'owned','status':'available'}"
   register: aws_volumes
 
 - debug:
@@ -33,7 +33,7 @@
 
 - name: Delete dynamic volumes
   ec2_vol:
-    region: "{{region}}"
+    region: "{{ region }}"
     state: "absent"
     id: "{{item.id}}"
   with_items: "{{aws_volumes.volumes}}"

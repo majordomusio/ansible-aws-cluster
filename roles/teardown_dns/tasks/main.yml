@@ -50,7 +50,7 @@
   
 - name: Delete private DNS zone
   route53_zone:
-    zone: "{{namespace}}.local"
+    zone: "{{ namespace }}.local"
     state: "absent"
-    vpc_region: "{{region}}"
+    vpc_region: "{{ region }}"
   wait: yes

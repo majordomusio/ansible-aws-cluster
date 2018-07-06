@@ -1,7 +1,7 @@
 
 - name: Find AMI
   ec2_ami_facts:
-    region: "{{region}}"
+    region: "{{ region }}"
     filters:
       "tag:Name": "{{ ami_name }}"
   register: "ami_find"

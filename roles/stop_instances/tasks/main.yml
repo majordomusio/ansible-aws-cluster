@@ -3,7 +3,7 @@
   ec2_remote_facts:
     region: "{{ region }}"
     filters:
-      "tag:namespace": "{{namespace}}"
+      "tag:namespace": "{{ namespace }}"
       "tag:group": "cluster"
   register: ec2_facts
 

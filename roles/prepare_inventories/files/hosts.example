@@ -426,7 +426,7 @@ debug_level=2
 # Router force subdomain (optional)
 # A router path format to force on all routes used by this router
 # (will ignore the route host value)
-#openshift_hosted_router_force_subdomain='${name}-${namespace}.apps.example.com'
+#openshift_hosted_router_force_subdomain='${name}-${ namespace }.apps.example.com'
 #
 # Router certificate (optional)
 # Provide local certificate paths which will be configured as the

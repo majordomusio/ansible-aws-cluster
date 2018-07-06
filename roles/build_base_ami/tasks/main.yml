@@ -1,7 +1,7 @@
 
 - name: Find existing AMI
   ec2_ami_facts:
-    region: "{{region}}"
+    region: "{{ region }}"
     filters:
       name: "{{ ami_name }}"
   register: "base_ami"
